@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 def simulation():
     def update_data():
         nonlocal temp
@@ -26,13 +27,13 @@ def simulation():
     update_data()
 
 def reset_app():
-    """Reset the temper and app state to the initial setup."""
+    """Reset the temperature, impedence, and app state to the initial setup."""
     global temp
-    temp = 37.0
-    temp_label.config(text="37.0")
+    temp = [37.0]
+    temp_label.config(text=str(temp[-1]))
     global imp
-    imp = 100.0
-    imp_label.config(text="100.0")
+    imp = [100.0]
+    imp_label.config(text=str(imp[-1]))
     start_button.config(state=tk.NORMAL)
 
 # Initialize the tkinter Application
@@ -64,10 +65,10 @@ start_button.grid(row=4, column=0, columnspan=1, sticky='')
 # reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
 # reset_button.grid(row=4, column=1, columnspan=1, sticky='')
 
-# Initialize the temp
+# Initialize the temperature
 temp = [37.0]
 
-# Initialize the imp
+# Initialize the impedence
 imp = [100.0]
 
 # Run the tkinter main loop
