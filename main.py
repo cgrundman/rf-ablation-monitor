@@ -1,4 +1,6 @@
 import tkinter as tk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 def simulation():
@@ -44,37 +46,61 @@ def reset_app():
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
-root.geometry("300x250")
-
-# Temperature Title Label
-temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
-temp_title.grid(row=0, column=0, columnspan=2, sticky='')
-
-# Temperature Display
-temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
-temp_label.grid(row=1, column=0, columnspan=2, sticky='')
-
-# Impedence Title Label
-imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
-imp_title.grid(row=2, column=0, columnspan=2, sticky='')
-
-# Impedence Display
-imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
-imp_label.grid(row=3, column=0, columnspan=2, sticky='')
-
-# Start button
-start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
-start_button.grid(row=4, column=0, columnspan=1, sticky='')
-
-# # Reset button
-# reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
-# reset_button.grid(row=4, column=1, columnspan=1, sticky='')
+root.geometry("700x450")
 
 # Initialize the temperature
 temp = [37.0]
 
 # Initialize the impedence
 imp = [100.0]
+
+# Temperature Title Label
+temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
+temp_title.grid(row=0, column=0, columnspan=6, sticky='')
+
+# Temperature Graph
+figure1, ax1 = plt.subplots()
+figure1.set_figwidth(6)
+figure1.set_figheight(1.5)
+line1 = ax1.plot(temp, "b-o")
+ax1.set_xlim(0, 100)
+ax1.set_ylim(25, 75)
+ax1.set_xticks([])
+canvas1 = FigureCanvasTkAgg(figure1, master=root)
+canvas_widget1 = canvas1.get_tk_widget()
+canvas_widget1.grid(row=1, column=0, columnspan=5, sticky='')
+
+# Temperature Display
+temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
+temp_label.grid(row=1, column=5, columnspan=1, sticky='')
+
+# Impedence Title Label
+imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
+imp_title.grid(row=2, column=0, columnspan=6, sticky='')
+
+# Impedence Graph
+figure2, ax2 = plt.subplots()
+figure2.set_figwidth(6)
+figure2.set_figheight(1.5)
+line2 = ax2.plot(imp, "b-o")
+ax2.set_xlim(0, 100)
+ax2.set_ylim(75, 325)
+ax2.set_xticks([])
+canvas2 = FigureCanvasTkAgg(figure2, master=root)
+canvas_widget2 = canvas2.get_tk_widget()
+canvas_widget2.grid(row=3, column=0, columnspan=5, sticky='')
+
+# Impedence Display
+imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
+imp_label.grid(row=3, column=5, columnspan=2, sticky='')
+
+# Start button
+start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
+start_button.grid(row=4, column=2, columnspan=1, sticky='')
+
+# Reset button
+reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
+reset_button.grid(row=4, column=3, columnspan=1, sticky='')
 
 # Run the tkinter main loop
 root.mainloop()
