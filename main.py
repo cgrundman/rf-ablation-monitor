@@ -24,8 +24,8 @@ def simulation():
             if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(1, update_data)
                 
-        if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
-            reset_app()
+        # if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
+        #     reset_app()
 
     start_button.config(state=tk.DISABLED)  # Disable button while simulating
     # Reset temp
@@ -43,6 +43,8 @@ def reset_app():
     imp = [100.0]
     imp_label.config(text=str(imp[-1]))
     start_button.config(state=tk.NORMAL)
+
+    plot_data(temp, imp)
 
 def close_app():
     root.quit()
@@ -85,10 +87,10 @@ figure1, ax1 = plt.subplots()
 figure1.set_figwidth(6)
 figure1.set_figheight(1.5)
 line1 = ax1.plot(temp, "-")
-ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-ax1.set_xlim(0, 20)
-ax1.set_ylim(34, 63)
-ax1.set_xticks([])
+# ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+# ax1.set_xlim(0, 20)
+# ax1.set_ylim(34, 63)
+# ax1.set_xticks([])
 canvas1 = FigureCanvasTkAgg(figure1, master=root)
 canvas_widget1 = canvas1.get_tk_widget()
 canvas_widget1.grid(row=1, column=0, columnspan=5, sticky='')
@@ -105,14 +107,17 @@ imp_title.grid(row=2, column=0, columnspan=6, sticky='')
 figure2, ax2 = plt.subplots()
 figure2.set_figwidth(6)
 figure2.set_figheight(1.5)
-line2 = ax2.plot(imp, "-")
-ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-ax2.set_xlim(0, 20)
-ax2.set_ylim(75, 325)
-ax2.set_xticks([])
+# line2 = ax2.plot(imp, "-")
+# ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+# ax2.set_xlim(0, 20)
+# ax2.set_ylim(75, 325)
+# ax2.set_xticks([])
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
 canvas_widget2 = canvas2.get_tk_widget()
 canvas_widget2.grid(row=3, column=0, columnspan=5, sticky='')
+
+# Plot initial data
+plot_data(temp, imp)
 
 # Impedence Display
 imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
