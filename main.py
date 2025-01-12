@@ -6,16 +6,21 @@ def simulation():
         nonlocal temp
         nonlocal imp
         if temp[-1] <= 60.0 and imp[-1] <= 300.0:
+            # Update the temperature
             temp.append(temp[-1])
             temp[-1] += .1
             temp[-1] = round(temp[-1], 2)
             temp_label.config(text=str(temp[-1]))
+            # Update the impedence
+            print(len(temp))
             imp.append(imp[-1])
             imp[-1] += .9
             imp[-1] = round(imp[-1], 2)
             imp_label.config(text=str(imp[-1]))
+
             if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(50, update_data)
+                
         if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
             reset_app()
 
