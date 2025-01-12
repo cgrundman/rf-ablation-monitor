@@ -54,7 +54,11 @@ imp_label.grid(row=3, column=0, columnspan=2, sticky='')
 
 # Start button
 start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
-start_button.grid(row=4, column=0, columnspan=2, sticky='')
+start_button.grid(row=4, column=0, columnspan=1, sticky='')
+
+# # Reset button
+# reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
+# reset_button.grid(row=4, column=1, columnspan=1, sticky='')
 
 # Initialize the temp
 temp = 37.0
