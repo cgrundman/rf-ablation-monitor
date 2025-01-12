@@ -25,12 +25,14 @@ def simulation():
 
             if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(1, update_data)
-                
+
+        # if not running:
+        #     root.after(200, update_data)
+
+        # TODO Alarms
         # if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
         #     reset_app()
 
-
-    
     # Reset temp
     temp = [37.0]
     # Reset imp
@@ -41,17 +43,19 @@ def start_app():
     global running
     running = True
     start_button.config(state=tk.DISABLED)  # Disable button while simulating
-    stop_button.config(state=tk.ACTIVE)  # Disable button while simulating
+    stop_button.config(state=tk.NORMAL)  # Disable button while simulating
     simulation()
 
 def stop_app():
     global running
-    start_button.config(state=tk.ACTIVE)  # Disable button while simulating
+    start_button.config(state=tk.NORMAL)  # Disable button while simulating
     stop_button.config(state=tk.DISABLED)  # Disable button while simulating
     running = False
 
 def reset_app():
     """Reset the temperature, impedence, and app state to the initial setup."""
+    global running
+    running = False
     global temp
     temp = [37.0]
     temp_label.config(text=str(temp[-1]))
@@ -59,7 +63,7 @@ def reset_app():
     imp = [100.0]
     imp_label.config(text=str(imp[-1]))
     start_button.config(state=tk.NORMAL)
-
+    stop_button.config(state=tk.DISABLED)
     plot_data(temp, imp)
 
 def close_app():
