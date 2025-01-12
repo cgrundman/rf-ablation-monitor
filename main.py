@@ -1,33 +1,25 @@
 import tkinter as tk
 
 def simulation():
-    def update_temp():
+    def update_data():
         nonlocal temp
-        if temp <= 60.0:
+        nonlocal imp
+        if temp <= 60.0 and imp <= 300.0:
             temp += .1
             temp = round(temp, 2)
             temp_label.config(text=str(temp))
-            if temp <= 60.0:  # Only continue updating if less than or equal to 60
-                root.after(50, update_temp)
-        if temp > 60.0:  # Reset the app when temp reaches 60
-            reset_app()
-
-    def update_imp():
-        nonlocal imp
-        if imp <= 300.0:
-            imp += .5
+            imp += .9
             imp = round(imp, 2)
             imp_label.config(text=str(imp))
-            if imp <= 300.0:  # Only continue updating if less than or equal to 300
-                root.after(50, update_temp)
-        # if imp > 300.0:  # Reset the app when impedence reaches 300
-        #     reset_app()
+            if temp <= 60.0 and imp <= 300.0:  # Only continue updating if less than thresholds
+                root.after(50, update_data)
+        if temp > 60.0 or imp > 300.0:  # Reset the app when temp reaches 60
+            reset_app()
 
     start_button.config(state=tk.DISABLED)  # Disable button while simulating
     temp = 37.0 # Reset temp
     imp = 100.0 # Reset imp
-    update_temp()
-    update_imp()
+    update_data()
 
 def reset_app():
     """Reset the temper and app state to the initial setup."""
