@@ -28,6 +28,10 @@ root = tk.Tk()
 root.title("RF Ablation Simulator")
 root.geometry("300x250")
 
+# # Temperature Title Label
+# temp_label = tk.Label(root, text="Temperature", font=("Helvetica", 24))
+# temp_label.grid(row=0, column=0, columnspan=2, sticky='')
+
 # Temperature Display
 temper_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
 temper_label.grid(row=1, column=0, columnspan=2, sticky='')
