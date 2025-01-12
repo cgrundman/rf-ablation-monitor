@@ -14,11 +14,11 @@ def simulation():
             temp[-1] = round(temp[-1], 2)
             temp_label.config(text=str(temp[-1]))
             # Update the impedence
-            print(len(temp))
             imp.append(imp[-1])
             imp[-1] += .9
             imp[-1] = round(imp[-1], 2)
             imp_label.config(text=str(imp[-1]))
+            plot_data(temp, imp)
 
             if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(50, update_data)
@@ -43,6 +43,24 @@ def reset_app():
     imp_label.config(text=str(imp[-1]))
     start_button.config(state=tk.NORMAL)
 
+def plot_data(temp, imp):
+    # Update temperature plot
+    ax1.cla()
+    ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+    ax1.set_xlim(0, 20)
+    ax1.set_ylim(34, 63)
+    ax1.set_xticks([])
+    ax1.plot(temp[-20:], "-")
+    canvas1.draw()
+    # Update impedence plot
+    ax2.cla()
+    ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+    ax2.set_xlim(0, 20)
+    ax2.set_ylim(75, 325)
+    ax2.set_xticks([])
+    ax2.plot(imp[-20:], "-")
+    canvas2.draw()
+
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
@@ -62,9 +80,10 @@ temp_title.grid(row=0, column=0, columnspan=6, sticky='')
 figure1, ax1 = plt.subplots()
 figure1.set_figwidth(6)
 figure1.set_figheight(1.5)
-line1 = ax1.plot(temp, "b-o")
-ax1.set_xlim(0, 100)
-ax1.set_ylim(25, 75)
+line1 = ax1.plot(temp, "-")
+ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+ax1.set_xlim(0, 20)
+ax1.set_ylim(34, 63)
 ax1.set_xticks([])
 canvas1 = FigureCanvasTkAgg(figure1, master=root)
 canvas_widget1 = canvas1.get_tk_widget()
@@ -82,8 +101,9 @@ imp_title.grid(row=2, column=0, columnspan=6, sticky='')
 figure2, ax2 = plt.subplots()
 figure2.set_figwidth(6)
 figure2.set_figheight(1.5)
-line2 = ax2.plot(imp, "b-o")
-ax2.set_xlim(0, 100)
+line2 = ax2.plot(imp, "-")
+ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+ax2.set_xlim(0, 20)
 ax2.set_ylim(75, 325)
 ax2.set_xticks([])
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
