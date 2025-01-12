@@ -1,6 +1,7 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sys
 
 
 def simulation():
@@ -42,6 +43,9 @@ def reset_app():
     imp = [100.0]
     imp_label.config(text=str(imp[-1]))
     start_button.config(state=tk.NORMAL)
+
+def close_app():
+    root.quit()
 
 def plot_data(temp, imp):
     # Update temperature plot
@@ -116,15 +120,19 @@ imp_label.grid(row=3, column=5, columnspan=2, sticky='')
 
 # Start button
 start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
-start_button.grid(row=4, column=2, columnspan=1, sticky='')
+start_button.grid(row=4, column=1, columnspan=1, sticky='')
 
 # Stop button
 start_button = tk.Button(root, text="Stop", font=("Helvetica", 14))
-start_button.grid(row=4, column=3, columnspan=1, sticky='')
+start_button.grid(row=4, column=2, columnspan=1, sticky='')
 
 # Reset button
 reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
-reset_button.grid(row=4, column=4, columnspan=1, sticky='')
+reset_button.grid(row=4, column=3, columnspan=1, sticky='')
+
+# Close button
+close_button = tk.Button(root, text="Close", command=close_app, font=("Helvetica", 14))
+close_button.grid(row=4, column=4, columnspan=1, sticky='')
 
 # Run the tkinter main loop
 root.mainloop()
