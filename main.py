@@ -1,10 +1,10 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import sys
 
 
 def simulation():
+
     def update_data():
         nonlocal temp
         nonlocal imp
@@ -82,19 +82,6 @@ imp = [100.0]
 temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
 temp_title.grid(row=0, column=0, columnspan=6, sticky='')
 
-# Temperature Graph
-figure1, ax1 = plt.subplots()
-figure1.set_figwidth(6)
-figure1.set_figheight(1.5)
-line1 = ax1.plot(temp, "-")
-# ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-# ax1.set_xlim(0, 20)
-# ax1.set_ylim(34, 63)
-# ax1.set_xticks([])
-canvas1 = FigureCanvasTkAgg(figure1, master=root)
-canvas_widget1 = canvas1.get_tk_widget()
-canvas_widget1.grid(row=1, column=0, columnspan=5, sticky='')
-
 # Temperature Display
 temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
 temp_label.grid(row=1, column=5, columnspan=1, sticky='')
@@ -103,25 +90,28 @@ temp_label.grid(row=1, column=5, columnspan=1, sticky='')
 imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
 imp_title.grid(row=2, column=0, columnspan=6, sticky='')
 
+# Impedence Display
+imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
+imp_label.grid(row=3, column=5, columnspan=2, sticky='')
+
+# Temperature Graph
+figure1, ax1 = plt.subplots()
+figure1.set_figwidth(6)
+figure1.set_figheight(1.5)
+canvas1 = FigureCanvasTkAgg(figure1, master=root)
+canvas_widget1 = canvas1.get_tk_widget()
+canvas_widget1.grid(row=1, column=0, columnspan=5, sticky='')
+
 # Impedence Graph
 figure2, ax2 = plt.subplots()
 figure2.set_figwidth(6)
 figure2.set_figheight(1.5)
-# line2 = ax2.plot(imp, "-")
-# ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-# ax2.set_xlim(0, 20)
-# ax2.set_ylim(75, 325)
-# ax2.set_xticks([])
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
 canvas_widget2 = canvas2.get_tk_widget()
 canvas_widget2.grid(row=3, column=0, columnspan=5, sticky='')
 
 # Plot initial data
 plot_data(temp, imp)
-
-# Impedence Display
-imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
-imp_label.grid(row=3, column=5, columnspan=2, sticky='')
 
 # Start button
 start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
