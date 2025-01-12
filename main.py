@@ -3,12 +3,14 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
+running = False
+
 def simulation():
 
     def update_data():
         nonlocal temp
         nonlocal imp
-        if temp[-1] <= 60.0 and imp[-1] <= 300.0:
+        if running and temp[-1] <= 60.0 and imp[-1] <= 300.0:
             # Update the temperature
             temp.append(temp[-1])
             temp[-1] += .1
@@ -27,12 +29,26 @@ def simulation():
         # if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
         #     reset_app()
 
-    start_button.config(state=tk.DISABLED)  # Disable button while simulating
+
+    
     # Reset temp
     temp = [37.0]
     # Reset imp
     imp = [100.0] 
     update_data()
+
+def start_app():
+    global running
+    running = True
+    start_button.config(state=tk.DISABLED)  # Disable button while simulating
+    stop_button.config(state=tk.ACTIVE)  # Disable button while simulating
+    simulation()
+
+def stop_app():
+    global running
+    start_button.config(state=tk.ACTIVE)  # Disable button while simulating
+    stop_button.config(state=tk.DISABLED)  # Disable button while simulating
+    running = False
 
 def reset_app():
     """Reset the temperature, impedence, and app state to the initial setup."""
@@ -114,12 +130,13 @@ canvas_widget2.grid(row=3, column=0, columnspan=5, sticky='')
 plot_data(temp, imp)
 
 # Start button
-start_button = tk.Button(root, text="Start", command=simulation, font=("Helvetica", 14))
+start_button = tk.Button(root, text="Start", command=start_app, font=("Helvetica", 14))
 start_button.grid(row=4, column=1, columnspan=1, sticky='')
 
 # Stop button
-start_button = tk.Button(root, text="Stop", font=("Helvetica", 14))
-start_button.grid(row=4, column=2, columnspan=1, sticky='')
+stop_button = tk.Button(root, text="Stop", command=stop_app, font=("Helvetica", 14))
+stop_button.grid(row=4, column=2, columnspan=1, sticky='')
+stop_button.config(state=tk.DISABLED)  # Disable button initially
 
 # Reset button
 reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
