@@ -4,21 +4,25 @@ def simulation():
     def update_data():
         nonlocal temp
         nonlocal imp
-        if temp <= 60.0 and imp <= 300.0:
-            temp += .1
-            temp = round(temp, 2)
-            temp_label.config(text=str(temp))
-            imp += .9
-            imp = round(imp, 2)
-            imp_label.config(text=str(imp))
-            if temp <= 60.0 and imp <= 300.0:  # Only continue updating if less than thresholds
+        if temp[-1] <= 60.0 and imp[-1] <= 300.0:
+            temp.append(temp[-1])
+            temp[-1] += .1
+            temp[-1] = round(temp[-1], 2)
+            temp_label.config(text=str(temp[-1]))
+            imp.append(imp[-1])
+            imp[-1] += .9
+            imp[-1] = round(imp[-1], 2)
+            imp_label.config(text=str(imp[-1]))
+            if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(50, update_data)
-        if temp > 60.0 or imp > 300.0:  # Reset the app when temp reaches 60
+        if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
             reset_app()
 
     start_button.config(state=tk.DISABLED)  # Disable button while simulating
-    temp = 37.0 # Reset temp
-    imp = 100.0 # Reset imp
+    # Reset temp
+    temp = [37.0]
+    # Reset imp
+    imp = [100.0] 
     update_data()
 
 def reset_app():
@@ -61,10 +65,10 @@ start_button.grid(row=4, column=0, columnspan=1, sticky='')
 # reset_button.grid(row=4, column=1, columnspan=1, sticky='')
 
 # Initialize the temp
-temp = 37.0
+temp = [37.0]
 
 # Initialize the imp
-imp = 100.0
+imp = [100.0]
 
 # Run the tkinter main loop
 root.mainloop()
