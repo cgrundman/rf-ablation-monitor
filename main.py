@@ -5,6 +5,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 running = False
 
+temp_thresh = 60.0
+
 def simulation():
 
     def update_data():
@@ -73,6 +75,24 @@ def reset_app():
 def close_app():
     root.quit()
 
+def update_thresholds():
+    temp_thresh_label.config(text=f"Threshold: {str(temp_thresh)}")
+
+def increase_temp_thresh():
+    global temp_thresh
+    temp_thresh += 1.0
+    update_thresholds()
+
+def decrease_temp_thresh():
+    global temp_thresh
+    temp_thresh -= 1.0
+    update_thresholds()
+
+def reset_temp_thresh():
+    global temp_thresh
+    temp_thresh = 60.0
+    update_thresholds()
+
 def plot_data(temp, imp):
     # Update temperature plot
     ax1.cla()
@@ -111,20 +131,20 @@ temp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvet
 temp_warn.grid(row=1, column=5, sticky='')
 
 # Temperature Display
-temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
+temp_label = tk.Label(root, text="37.0", font=("Helvetica", 36))
 temp_label.grid(row=2, column=5, sticky='')
 
 # Temperature Threshold
-temp_thresh = tk.Label(root, text="Threshold: 60.0", font=("Helvetica", 16))
-temp_thresh.grid(row=3, column=5, sticky='')
+temp_thresh_label = tk.Label(root, text=f"Threshold: {str(temp_thresh)}", font=("Helvetica", 16))
+temp_thresh_label.grid(row=3, column=5, sticky='')
 
 # Temperature Threshold Buttons
 temp_thresh_frame = tk.Frame(root)
 temp_thresh_frame.grid(row=4, column=5, sticky='')
 
-temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14)) # Threshold Increase
-temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14)) # Threshold Reset
-temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", font=("Helvetica", 14)) # Threshold Decrease
+temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14), command=increase_temp_thresh) # Threshold Increase
+temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_temp_thresh) # Threshold Reset
+temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", font=("Helvetica", 14), command=decrease_temp_thresh) # Threshold Decrease
 
 temp_thresh_up.pack(side="left")
 temp_thresh_reset.pack(side="left")
@@ -139,16 +159,12 @@ imp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helveti
 imp_warn.grid(row=6, column=5, sticky='')
 
 # Impedence Display
-imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
+imp_label = tk.Label(root, text="100.0", font=("Helvetica", 36))
 imp_label.grid(row=7, column=5, sticky='')
 
 # Impedence Threshold Setting
-temp_thresh = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
-temp_thresh.grid(row=8, column=5, sticky='')
-
-# Impedence Threshold
-imp_thresh = tk.Label(root, text="Threshold: 60.0", font=("Helvetica", 16))
-imp_thresh.grid(row=3, column=5, sticky='')
+imp_thresh = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
+imp_thresh.grid(row=8, column=5, sticky='')
 
 # Impedence Threshold Buttons
 imp_thresh_frame = tk.Frame(root)
