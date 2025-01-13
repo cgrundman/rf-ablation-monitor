@@ -143,8 +143,24 @@ imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
 imp_label.grid(row=7, column=5, sticky='')
 
 # Impedence Threshold Setting
-temp_thresh = tk.Label(root, text="Courier", font=("Courier", 16))
+temp_thresh = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
 temp_thresh.grid(row=8, column=5, sticky='')
+
+# Impedence Threshold
+imp_thresh = tk.Label(root, text="Threshold: 60.0", font=("Helvetica", 16))
+imp_thresh.grid(row=3, column=5, sticky='')
+
+# Impedence Threshold Buttons
+imp_thresh_frame = tk.Frame(root)
+imp_thresh_frame.grid(row=9, column=5, sticky='')
+
+imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", font=("Helvetica", 14)) # Threshold Increase
+imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", font=("Helvetica", 14)) # Threshold Reset
+imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", font=("Helvetica", 14)) # Threshold Decrease
+
+imp_thresh_up.pack(side="left")
+imp_thresh_reset.pack(side="left")
+imp_thresh_down.pack(side="left")
 
 # Temperature Graph
 figure1, ax1 = plt.subplots()
