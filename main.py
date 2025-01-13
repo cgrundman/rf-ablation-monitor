@@ -104,38 +104,35 @@ imp = []
 
 # Temperature Title Label
 temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
-temp_title.grid(row=0, column=0, columnspan=8, sticky='')
+temp_title.grid(row=0, column=0, columnspan=6, sticky='')
 
 # Temperature Warning Label
 temp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
-temp_warn.grid(row=1, column=5, columnspan=3, sticky='')
+temp_warn.grid(row=1, column=5, sticky='')
 
 # Temperature Display
 temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
-temp_label.grid(row=2, column=5, columnspan=3, sticky='')
+temp_label.grid(row=2, column=5, sticky='')
 
 # Temperature Threshold
 temp_thresh = tk.Label(root, text="Threshold: 60.0", font=("Helvetica", 16))
-temp_thresh.grid(row=3, column=5, columnspan=3, sticky='')
+temp_thresh.grid(row=3, column=5, sticky='')
 
+# Temperature Threshold Buttons
 temp_thresh_frame = tk.Frame(root)
-temp_thresh_frame.grid(row=4, column=5, columnspan=3, sticky='')
+temp_thresh_frame.grid(row=4, column=5, sticky='')
 
-# Temperature Threshold Increase
-temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14))
+temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14)) # Threshold Increase
+temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14)) # Threshold Reset
+temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", font=("Helvetica", 14)) # Threshold Decrease
+
 temp_thresh_up.pack(side="left")
-
-# Temperature Threshold Reset
-temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14))
 temp_thresh_reset.pack(side="left")
-
-# Temperature Threshold Decrease
-temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", font=("Helvetica", 14))
 temp_thresh_down.pack(side="left")
 
 # Impedence Title Label
 imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
-imp_title.grid(row=5, column=0, columnspan=8, sticky='')
+imp_title.grid(row=5, column=0, columnspan=6, sticky='')
 
 # Impedence Warning Label
 imp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
