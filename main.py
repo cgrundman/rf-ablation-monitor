@@ -6,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 running = False
 
 temp_thresh = 60.0
+imp_thresh = 300.0
 
 def simulation():
 
@@ -77,6 +78,7 @@ def close_app():
 
 def update_thresholds():
     temp_thresh_label.config(text=f"Threshold: {str(temp_thresh)}")
+    imp_thresh_label.config(text=f"Threshold: {str(imp_thresh)}")
 
 def increase_temp_thresh():
     global temp_thresh
@@ -91,6 +93,21 @@ def decrease_temp_thresh():
 def reset_temp_thresh():
     global temp_thresh
     temp_thresh = 60.0
+    update_thresholds()
+
+def increase_imp_thresh():
+    global imp_thresh
+    imp_thresh += 10.0
+    update_thresholds()
+
+def decrease_imp_thresh():
+    global imp_thresh
+    imp_thresh -= 10.0
+    update_thresholds()
+
+def reset_imp_thresh():
+    global imp_thresh
+    imp_thresh = 300.0
     update_thresholds()
 
 def plot_data(temp, imp):
@@ -114,7 +131,7 @@ def plot_data(temp, imp):
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
-root.geometry("900x650")
+root.geometry("800x650")
 
 # Initialize the temperature
 temp = []
@@ -163,16 +180,16 @@ imp_label = tk.Label(root, text="100.0", font=("Helvetica", 36))
 imp_label.grid(row=7, column=5, sticky='')
 
 # Impedence Threshold Setting
-imp_thresh = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
-imp_thresh.grid(row=8, column=5, sticky='')
+imp_thresh_label = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
+imp_thresh_label.grid(row=8, column=5, sticky='')
 
 # Impedence Threshold Buttons
 imp_thresh_frame = tk.Frame(root)
 imp_thresh_frame.grid(row=9, column=5, sticky='')
 
-imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", font=("Helvetica", 14)) # Threshold Increase
-imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", font=("Helvetica", 14)) # Threshold Reset
-imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", font=("Helvetica", 14)) # Threshold Decrease
+imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", font=("Helvetica", 14), command=increase_imp_thresh) # Threshold Increase
+imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_imp_thresh) # Threshold Reset
+imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", font=("Helvetica", 14), command=decrease_imp_thresh) # Threshold Decrease
 
 imp_thresh_up.pack(side="left")
 imp_thresh_reset.pack(side="left")
