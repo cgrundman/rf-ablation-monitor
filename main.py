@@ -26,12 +26,12 @@ def simulation():
             if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
                 root.after(1, update_data)
 
-        # if not running:
-        #     root.after(200, update_data)
+        # Warnings
+        if temp[-1] > 55.0: # trigger above 55C
+            temp_warn.config(bg="#f00")
 
-        # TODO Alarms
-        # if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
-        #     reset_app()
+        if imp[-1] > 270.0: # trigger above 270 impedence
+            imp_warn.config(bg="#f00")
 
     # Set Initial temperature and impedence
     global temp
@@ -94,7 +94,7 @@ def plot_data(temp, imp):
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
-root.geometry("700x450")
+root.geometry("745x650")
 
 # Initialize the temperature
 # temp = [37.0]
@@ -108,53 +108,61 @@ imp = []
 temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
 temp_title.grid(row=0, column=0, columnspan=6, sticky='')
 
+# Temperature Warning Label
+temp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+temp_warn.grid(row=1, column=5, sticky='')
+
 # Temperature Display
 temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
-temp_label.grid(row=1, column=5, columnspan=1, sticky='')
+temp_label.grid(row=2, column=5, sticky='')
 
 # Impedence Title Label
 imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
-imp_title.grid(row=2, column=0, columnspan=6, sticky='')
+imp_title.grid(row=4, column=0, columnspan=6, sticky='')
+
+# Impedence Warning Label
+imp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+imp_warn.grid(row=5, column=5, sticky='')
 
 # Impedence Display
 imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
-imp_label.grid(row=3, column=5, columnspan=2, sticky='')
+imp_label.grid(row=6, column=5, sticky='')
 
 # Temperature Graph
 figure1, ax1 = plt.subplots()
 figure1.set_figwidth(6)
-figure1.set_figheight(1.5)
+figure1.set_figheight(2.5)
 canvas1 = FigureCanvasTkAgg(figure1, master=root)
 canvas_widget1 = canvas1.get_tk_widget()
-canvas_widget1.grid(row=1, column=0, columnspan=5, sticky='')
+canvas_widget1.grid(row=1, column=0, rowspan=3, columnspan=5, sticky='')
 
 # Impedence Graph
 figure2, ax2 = plt.subplots()
 figure2.set_figwidth(6)
-figure2.set_figheight(1.5)
+figure2.set_figheight(2.5)
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
 canvas_widget2 = canvas2.get_tk_widget()
-canvas_widget2.grid(row=3, column=0, columnspan=5, sticky='')
+canvas_widget2.grid(row=5, column=0, rowspan=3, columnspan=5, sticky='')
 
 # Plot initial data
 plot_data(temp, imp)
 
 # Start button
 start_button = tk.Button(root, text="Start", command=start_app, font=("Helvetica", 14))
-start_button.grid(row=4, column=1, columnspan=1, sticky='')
+start_button.grid(row=8, column=1, columnspan=1, sticky='')
 
 # Stop button
 stop_button = tk.Button(root, text="Stop", command=stop_app, font=("Helvetica", 14))
-stop_button.grid(row=4, column=2, columnspan=1, sticky='')
+stop_button.grid(row=8, column=2, columnspan=1, sticky='')
 stop_button.config(state=tk.DISABLED)  # Disable button initially
 
 # Reset button
 reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
-reset_button.grid(row=4, column=3, columnspan=1, sticky='')
+reset_button.grid(row=8, column=3, columnspan=1, sticky='')
 
 # Close button
 close_button = tk.Button(root, text="Close", command=close_app, font=("Helvetica", 14))
-close_button.grid(row=4, column=4, columnspan=1, sticky='')
+close_button.grid(row=8, column=4, columnspan=1, sticky='')
 
 # Run the tkinter main loop
 root.mainloop()
