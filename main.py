@@ -8,17 +8,17 @@ running = False
 def simulation():
 
     def update_data():
-        nonlocal temp
-        nonlocal imp
+        global temp
+        global imp
         if running and temp[-1] <= 60.0 and imp[-1] <= 300.0:
             # Update the temperature
             temp.append(temp[-1])
-            temp[-1] += .1
+            temp[-1] += 1 # .1
             temp[-1] = round(temp[-1], 2)
             temp_label.config(text=str(temp[-1]))
             # Update the impedence
             imp.append(imp[-1])
-            imp[-1] += .9
+            imp[-1] += 9 # .9
             imp[-1] = round(imp[-1], 2)
             imp_label.config(text=str(imp[-1]))
             plot_data(temp, imp)
@@ -33,10 +33,14 @@ def simulation():
         # if temp[-1] > 60.0 or imp[-1] > 300.0:  # Reset the app when temp reaches 60
         #     reset_app()
 
-    # Reset temp
-    temp = [37.0]
-    # Reset imp
-    imp = [100.0] 
+    # Set Initial temperature and impedence
+    global temp
+    global imp
+    if len(temp) == 0:
+        # Reset temp
+        temp = [37.0]
+        # Reset imp
+        imp = [100.0] 
     update_data()
 
 def start_app():
@@ -57,11 +61,11 @@ def reset_app():
     global running
     running = False
     global temp
-    temp = [37.0]
-    temp_label.config(text=str(temp[-1]))
+    temp = []
+    temp_label.config(text="37.0")
     global imp
-    imp = [100.0]
-    imp_label.config(text=str(imp[-1]))
+    imp = []
+    imp_label.config(text="100.0")
     start_button.config(state=tk.NORMAL)
     stop_button.config(state=tk.DISABLED)
     plot_data(temp, imp)
@@ -93,10 +97,12 @@ root.title("RF Ablation Simulator")
 root.geometry("700x450")
 
 # Initialize the temperature
-temp = [37.0]
+# temp = [37.0]
+temp = []
 
 # Initialize the impedence
-imp = [100.0]
+# imp = [100.0]
+imp = []
 
 # Temperature Title Label
 temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
