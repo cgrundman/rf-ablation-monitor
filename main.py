@@ -116,6 +116,10 @@ temp_warn.grid(row=1, column=5, sticky='')
 temp_label = tk.Label(root, text="37.0", font=("Helvetica", 24))
 temp_label.grid(row=2, column=5, sticky='')
 
+# Temperature Threshold Setting
+temp_thresh = tk.Label(root, text="Threshold", font=("Helvetica", 24))
+temp_thresh.grid(row=3, column=5, sticky='')
+
 # Impedence Title Label
 imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
 imp_title.grid(row=4, column=0, columnspan=6, sticky='')
@@ -127,6 +131,10 @@ imp_warn.grid(row=5, column=5, sticky='')
 # Impedence Display
 imp_label = tk.Label(root, text="100.0", font=("Helvetica", 24))
 imp_label.grid(row=6, column=5, sticky='')
+
+# Impedence Threshold Setting
+temp_thresh = tk.Label(root, text="Threshold", font=("Helvetica", 24))
+temp_thresh.grid(row=7, column=5, sticky='')
 
 # Temperature Graph
 figure1, ax1 = plt.subplots()
