@@ -13,7 +13,7 @@ def simulation():
     def update_data():
         global temp
         global imp
-        if running and temp[-1] <= 60.0 and imp[-1] <= 300.0:
+        if running and temp[-1] <= temp_thresh and imp[-1] <= imp_thresh:
             # Update the temperature
             temp.append(temp[-1])
             temp[-1] += 1 # .1
@@ -26,7 +26,7 @@ def simulation():
             imp_label.config(text=str(imp[-1]))
             plot_data(temp, imp)
 
-            if temp[-1] <= 60.0 and imp[-1] <= 300.0:  # Only continue updating if less than thresholds
+            if temp[-1] <= temp_thresh and imp[-1] <= imp_thresh:  # Only continue updating if less than thresholds
                 root.after(1, update_data)
 
         # Warnings
@@ -77,8 +77,11 @@ def close_app():
     root.quit()
 
 def update_thresholds():
+    global temp
+    global imp
     temp_thresh_label.config(text=f"Threshold: {str(temp_thresh)}")
     imp_thresh_label.config(text=f"Threshold: {str(imp_thresh)}")
+    plot_data(temp, imp)
 
 def increase_temp_thresh():
     global temp_thresh
@@ -113,17 +116,17 @@ def reset_imp_thresh():
 def plot_data(temp, imp):
     # Update temperature plot
     ax1.cla()
-    ax1.axhline(y=60,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+    ax1.axhline(y=temp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
     ax1.set_xlim(0, 20)
-    ax1.set_ylim(34, 63)
+    ax1.set_ylim(34, int(temp_thresh + 3.0))
     ax1.set_xticks([])
     ax1.plot(temp[-20:], "-")
     canvas1.draw()
     # Update impedence plot
     ax2.cla()
-    ax2.axhline(y=300,xmin=0,xmax=3,ls="--",c="r",zorder=0)
+    ax2.axhline(y=imp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
     ax2.set_xlim(0, 20)
-    ax2.set_ylim(75, 325)
+    ax2.set_ylim(75, int(imp_thresh + 25.0))
     ax2.set_xticks([])
     ax2.plot(imp[-20:], "-")
     canvas2.draw()
@@ -180,7 +183,7 @@ imp_label = tk.Label(root, text="100.0", font=("Helvetica", 36))
 imp_label.grid(row=7, column=5, sticky='')
 
 # Impedence Threshold Setting
-imp_thresh_label = tk.Label(root, text="Threshold: 300.0", font=("Helvetica", 16))
+imp_thresh_label = tk.Label(root, text=f"Threshold: {str(imp_thresh)}", font=("Helvetica", 16))
 imp_thresh_label.grid(row=8, column=5, sticky='')
 
 # Impedence Threshold Buttons
