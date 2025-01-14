@@ -30,10 +30,10 @@ def simulation():
                 root.after(1, update_data)
 
         # Warnings
-        if temp[-1] > 55.0: # trigger above 55C
+        if temp[-1] > temp_thresh - 5.0: # trigger above 55C
             temp_warn.config(bg="#f00")
 
-        if imp[-1] > 270.0: # trigger above 270 impedence
+        if imp[-1] > imp_thresh - 30.0: # trigger above 270 impedence
             imp_warn.config(bg="#f00")
 
     # Set Initial temperature and impedence
@@ -71,6 +71,8 @@ def reset_app():
     imp_label.config(text="100.0")
     start_button.config(state=tk.NORMAL)
     stop_button.config(state=tk.DISABLED)
+    temp_warn.config(bg="#fff")
+    imp_warn.config(bg="#fff")
     plot_data(temp, imp)
 
 def close_app():
