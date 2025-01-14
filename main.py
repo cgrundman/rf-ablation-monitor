@@ -129,10 +129,10 @@ def reset_imp_thresh():
 
 def plot_data(temp, imp):
     # Update temperature plot
-    x = [0, 10, 20]
+    x = [-50, 10, 10000]
     ax1.cla()
     ax1.axhline(y=temp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-    ax1.set_xlim(0, 20)
+    ax1.set_xlim(int(min(len(temp) - 20, 0)), int(min(len(temp) - 1, 19)))
     ax1.set_ylim(34, int(temp_thresh + 3.0))
     ax1.fill_between(x, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
     ax1.set_xticks([])
@@ -141,7 +141,7 @@ def plot_data(temp, imp):
     # Update impedence plot
     ax2.cla()
     ax2.axhline(y=imp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
-    ax2.set_xlim(0, 20)
+    ax2.set_xlim(int(min(len(imp) - 20, 0)), int(min(len(imp) - 1, 19)))
     ax2.set_ylim(75, int(imp_thresh + 25.0))
     ax2.fill_between(x, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
     ax2.set_xticks([])
