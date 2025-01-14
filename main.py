@@ -145,7 +145,7 @@ def plot_data(temp, imp):
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
-root.geometry("800x650")
+root.geometry("800x700")
 
 # Initialize the temperature
 temp = []
@@ -153,25 +153,29 @@ temp = []
 # Initialize the impedence
 imp = []
 
+# Main Title Label
+main_title = tk.Label(root, text="RF Ablation Simulation", font=("Helvetica", 36))
+main_title.grid(row=0, column=0, columnspan=6, sticky='')
+
 # Temperature Title Label
 temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
-temp_title.grid(row=0, column=0, columnspan=6, sticky='')
+temp_title.grid(row=1, column=0, columnspan=6, sticky='')
 
 # Temperature Warning Label
 temp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
-temp_warn.grid(row=1, column=5, sticky='')
+temp_warn.grid(row=2, column=5, sticky='')
 
 # Temperature Display
 temp_label = tk.Label(root, text="37.0", font=("Helvetica", 36))
-temp_label.grid(row=2, column=5, sticky='')
+temp_label.grid(row=3, column=5, sticky='')
 
 # Temperature Threshold
 temp_thresh_label = tk.Label(root, text=f"Threshold: {str(temp_thresh)}", font=("Helvetica", 16))
-temp_thresh_label.grid(row=3, column=5, sticky='')
+temp_thresh_label.grid(row=4, column=5, sticky='')
 
 # Temperature Threshold Buttons
 temp_thresh_frame = tk.Frame(root)
-temp_thresh_frame.grid(row=4, column=5, sticky='')
+temp_thresh_frame.grid(row=5, column=5, sticky='')
 
 temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14), command=increase_temp_thresh) # Threshold Increase
 temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_temp_thresh) # Threshold Reset
@@ -183,23 +187,23 @@ temp_thresh_down.pack(side="left")
 
 # Impedence Title Label
 imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
-imp_title.grid(row=5, column=0, columnspan=6, sticky='')
+imp_title.grid(row=6, column=0, columnspan=6, sticky='')
 
 # Impedence Warning Label
 imp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
-imp_warn.grid(row=6, column=5, sticky='')
+imp_warn.grid(row=7, column=5, sticky='')
 
 # Impedence Display
 imp_label = tk.Label(root, text="100.0", font=("Helvetica", 36))
-imp_label.grid(row=7, column=5, sticky='')
+imp_label.grid(row=8, column=5, sticky='')
 
 # Impedence Threshold Setting
 imp_thresh_label = tk.Label(root, text=f"Threshold: {str(imp_thresh)}", font=("Helvetica", 16))
-imp_thresh_label.grid(row=8, column=5, sticky='')
+imp_thresh_label.grid(row=9, column=5, sticky='')
 
 # Impedence Threshold Buttons
 imp_thresh_frame = tk.Frame(root)
-imp_thresh_frame.grid(row=9, column=5, sticky='')
+imp_thresh_frame.grid(row=10, column=5, sticky='')
 
 imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", font=("Helvetica", 14), command=increase_imp_thresh) # Threshold Increase
 imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_imp_thresh) # Threshold Reset
@@ -215,7 +219,7 @@ figure1.set_figwidth(6)
 figure1.set_figheight(2.5)
 canvas1 = FigureCanvasTkAgg(figure1, master=root)
 canvas_widget1 = canvas1.get_tk_widget()
-canvas_widget1.grid(row=1, column=0, rowspan=4, columnspan=5, sticky='')
+canvas_widget1.grid(row=2, column=0, rowspan=4, columnspan=5, sticky='')
 
 # Impedence Graph
 figure2, ax2 = plt.subplots()
@@ -223,27 +227,27 @@ figure2.set_figwidth(6)
 figure2.set_figheight(2.5)
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
 canvas_widget2 = canvas2.get_tk_widget()
-canvas_widget2.grid(row=6, column=0, rowspan=4, columnspan=5, sticky='')
+canvas_widget2.grid(row=7, column=0, rowspan=4, columnspan=5, sticky='')
 
 # Plot initial data
 plot_data(temp, imp)
 
 # Start button
 start_button = tk.Button(root, text="Start", command=start_app, font=("Helvetica", 14))
-start_button.grid(row=10, column=1, columnspan=1, sticky='')
+start_button.grid(row=11, column=1, columnspan=1, sticky='')
 
 # Stop button
 stop_button = tk.Button(root, text="Stop", command=stop_app, font=("Helvetica", 14))
-stop_button.grid(row=10, column=2, columnspan=1, sticky='')
+stop_button.grid(row=11, column=2, columnspan=1, sticky='')
 stop_button.config(state=tk.DISABLED)  # Disable button initially
 
 # Reset button
 reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
-reset_button.grid(row=10, column=3, columnspan=1, sticky='')
+reset_button.grid(row=11, column=3, columnspan=1, sticky='')
 
 # Close button
 close_button = tk.Button(root, text="Close", command=close_app, font=("Helvetica", 14))
-close_button.grid(row=10, column=4, columnspan=1, sticky='')
+close_button.grid(row=11, column=4, columnspan=1, sticky='')
 
 # Run the tkinter main loop
 root.mainloop()
