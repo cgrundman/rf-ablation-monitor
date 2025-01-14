@@ -8,6 +8,12 @@ running = False
 temp_thresh = 60.0
 imp_thresh = 300.0
 
+# Color Pallet
+offwhite = "#f5fbfa"
+blue = "#2872a2"
+dark_gray = "#8c99a3"
+light_gray = "#bec1c5"
+
 def simulation():
 
     def update_data():
