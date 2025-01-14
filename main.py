@@ -26,19 +26,21 @@ def simulation():
             imp_label.config(text=str(imp[-1]))
             plot_data(temp, imp)
 
+            # Threshold Exceeded Notifications
+            if temp[-1] > temp_thresh:
+                temp_warn.config(text="Exceeded!", bg="#f00")
+            if imp[-1] > imp_thresh:
+                imp_warn.config(text="Exceeded!", bg="#f00")
+
             if temp[-1] <= temp_thresh and imp[-1] <= imp_thresh:  # Only continue updating if less than thresholds
                 root.after(1, update_data)
 
-        # Warnings
-        if temp[-1] > temp_thresh - 5.0:
+        # High Level Notifications
+        if temp[-1] > temp_thresh - 5.0 and temp[-1] <= temp_thresh:
             temp_warn.config(bg="#FFA500")
-        else:
-            temp_warn.config(bg="#fff")
 
-        if imp[-1] > imp_thresh - 40.0:
+        if imp[-1] > imp_thresh - 40.0 and imp[-1] <= imp_thresh:
             imp_warn.config(bg="#FFA500")
-        else:
-            imp_warn.config(bg="#fff")
 
     # Set Initial temperature and impedence
     global temp
@@ -75,8 +77,8 @@ def reset_app():
     imp_label.config(text="100.0")
     start_button.config(state=tk.NORMAL)
     stop_button.config(state=tk.DISABLED)
-    temp_warn.config(bg="#fff")
-    imp_warn.config(bg="#fff")
+    temp_warn.config(text="Warning!", bg="#fff")
+    imp_warn.config(text="Warning!", bg="#fff")
     plot_data(temp, imp)
 
 def close_app():
