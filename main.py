@@ -30,11 +30,15 @@ def simulation():
                 root.after(1, update_data)
 
         # Warnings
-        if temp[-1] > temp_thresh - 5.0: # trigger above 55C
-            temp_warn.config(bg="#f00")
+        if temp[-1] > temp_thresh - 5.0:
+            temp_warn.config(bg="#FFA500")
+        else:
+            temp_warn.config(bg="#fff")
 
-        if imp[-1] > imp_thresh - 30.0: # trigger above 270 impedence
-            imp_warn.config(bg="#f00")
+        if imp[-1] > imp_thresh - 40.0:
+            imp_warn.config(bg="#FFA500")
+        else:
+            imp_warn.config(bg="#fff")
 
     # Set Initial temperature and impedence
     global temp
@@ -117,10 +121,12 @@ def reset_imp_thresh():
 
 def plot_data(temp, imp):
     # Update temperature plot
+    x = [0, 10, 20]
     ax1.cla()
     ax1.axhline(y=temp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
     ax1.set_xlim(0, 20)
     ax1.set_ylim(34, int(temp_thresh + 3.0))
+    ax1.fill_between(x, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
     ax1.set_xticks([])
     ax1.plot(temp[-20:], "-")
     canvas1.draw()
@@ -129,6 +135,7 @@ def plot_data(temp, imp):
     ax2.axhline(y=imp_thresh,xmin=0,xmax=3,ls="--",c="r",zorder=0)
     ax2.set_xlim(0, 20)
     ax2.set_ylim(75, int(imp_thresh + 25.0))
+    ax2.fill_between(x, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
     ax2.set_xticks([])
     ax2.plot(imp[-20:], "-")
     canvas2.draw()
@@ -149,7 +156,7 @@ temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
 temp_title.grid(row=0, column=0, columnspan=6, sticky='')
 
 # Temperature Warning Label
-temp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+temp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
 temp_warn.grid(row=1, column=5, sticky='')
 
 # Temperature Display
@@ -177,7 +184,7 @@ imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
 imp_title.grid(row=5, column=0, columnspan=6, sticky='')
 
 # Impedence Warning Label
-imp_warn = tk.Label(root, text="Too High!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+imp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
 imp_warn.grid(row=6, column=5, sticky='')
 
 # Impedence Display
