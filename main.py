@@ -83,8 +83,8 @@ def reset_app():
     imp_label.config(text="100.0")
     start_button.config(state=tk.NORMAL)
     stop_button.config(state=tk.DISABLED)
-    temp_warn.config(text="Warning!", bg="#fff")
-    imp_warn.config(text="Warning!", bg="#fff")
+    temp_warn.config(text="Warning!", bg=offwhite)
+    imp_warn.config(text="Warning!", bg=offwhite)
     plot_data(temp, imp)
 
 def close_app():
@@ -152,6 +152,7 @@ def plot_data(temp, imp):
 root = tk.Tk()
 root.title("RF Ablation Simulator")
 root.geometry("800x700")
+root.configure(background=offwhite)
 
 # Initialize the temperature
 temp = []
@@ -160,23 +161,23 @@ temp = []
 imp = []
 
 # Main Title Label
-main_title = tk.Label(root, text="RF Ablation Simulation", font=("Helvetica", 36))
+main_title = tk.Label(root, text="RF Ablation Simulation", bg=offwhite, font=("Helvetica", 36))
 main_title.grid(row=0, column=0, columnspan=6, sticky='')
 
 # Temperature Title Label
-temp_title = tk.Label(root, text="Temperature", font=("Helvetica", 24))
+temp_title = tk.Label(root, text="Temperature", bg=offwhite, font=("Helvetica", 24))
 temp_title.grid(row=1, column=0, columnspan=6, sticky='')
 
 # Temperature Warning Label
-temp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+temp_warn = tk.Label(root, text="Warning!", bg=offwhite, fg=offwhite, font=("Helvetica", 24))
 temp_warn.grid(row=2, column=5, sticky='')
 
 # Temperature Display
-temp_label = tk.Label(root, text="37.0", font=("Helvetica", 36))
+temp_label = tk.Label(root, text="37.0", bg=offwhite, font=("Helvetica", 36))
 temp_label.grid(row=3, column=5, sticky='')
 
 # Temperature Threshold
-temp_thresh_label = tk.Label(root, text=f"Threshold: {str(temp_thresh)}", font=("Helvetica", 16))
+temp_thresh_label = tk.Label(root, text=f"Threshold: {str(temp_thresh)}", bg=offwhite, font=("Helvetica", 16))
 temp_thresh_label.grid(row=4, column=5, sticky='')
 
 # Temperature Threshold Buttons
@@ -192,19 +193,19 @@ temp_thresh_reset.pack(side="left")
 temp_thresh_down.pack(side="left")
 
 # Impedence Title Label
-imp_title = tk.Label(root, text="Impedence", font=("Helvetica", 24))
+imp_title = tk.Label(root, text="Impedence", bg=offwhite, font=("Helvetica", 24))
 imp_title.grid(row=6, column=0, columnspan=6, sticky='')
 
 # Impedence Warning Label
-imp_warn = tk.Label(root, text="Warning!", bg='#fff', fg='#fff', font=("Helvetica", 24))
+imp_warn = tk.Label(root, text="Warning!", bg=offwhite, fg=offwhite, font=("Helvetica", 24))
 imp_warn.grid(row=7, column=5, sticky='')
 
 # Impedence Display
-imp_label = tk.Label(root, text="100.0", font=("Helvetica", 36))
+imp_label = tk.Label(root, text="100.0", bg=offwhite, font=("Helvetica", 36))
 imp_label.grid(row=8, column=5, sticky='')
 
 # Impedence Threshold Setting
-imp_thresh_label = tk.Label(root, text=f"Threshold: {str(imp_thresh)}", font=("Helvetica", 16))
+imp_thresh_label = tk.Label(root, text=f"Threshold: {str(imp_thresh)}", bg=offwhite, font=("Helvetica", 16))
 imp_thresh_label.grid(row=9, column=5, sticky='')
 
 # Impedence Threshold Buttons
@@ -223,6 +224,7 @@ imp_thresh_down.pack(side="left")
 figure1, ax1 = plt.subplots()
 figure1.set_figwidth(6)
 figure1.set_figheight(2.5)
+figure1.patch.set_facecolor(offwhite)
 canvas1 = FigureCanvasTkAgg(figure1, master=root)
 canvas_widget1 = canvas1.get_tk_widget()
 canvas_widget1.grid(row=2, column=0, rowspan=4, columnspan=5, sticky='')
@@ -231,6 +233,7 @@ canvas_widget1.grid(row=2, column=0, rowspan=4, columnspan=5, sticky='')
 figure2, ax2 = plt.subplots()
 figure2.set_figwidth(6)
 figure2.set_figheight(2.5)
+figure2.patch.set_facecolor(offwhite)
 canvas2 = FigureCanvasTkAgg(figure2, master=root)
 canvas_widget2 = canvas2.get_tk_widget()
 canvas_widget2.grid(row=7, column=0, rowspan=4, columnspan=5, sticky='')
