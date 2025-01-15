@@ -35,10 +35,10 @@ def simulation():
             # Threshold Exceeded Notifications
             if temp[-1] > temp_thresh:
                 temp_warn.config(text="Exceeded!", bg="#f00")
-                stop_button.config(image=stopButtonInactive)
+                start_stop_button.config(image=startButton, command=start_app)
             if imp[-1] > imp_thresh:
                 imp_warn.config(text="Exceeded!", bg="#f00")
-                stop_button.config(image=stopButtonInactive)
+                start_stop_button.config(image=startButton, command=start_app)
 
             if temp[-1] <= temp_thresh and imp[-1] <= imp_thresh:  # Only continue updating if less than thresholds
                 root.after(500, update_data)
@@ -64,14 +64,12 @@ def simulation():
 def start_app():
     global running
     running = True
-    start_button.config( image=startButtonInactive)  # Disable button while simulating
-    stop_button.config(image=stopButtonActive,)  # Disable button while simulating
+    start_stop_button.config(image=stopButton, command=stop_app)
     simulation()
 
 def stop_app():
     global running
-    start_button.config( image=startButtonActive)  # Disable button while simulating
-    stop_button.config(image=stopButtonInactive)  # Disable button while simulating
+    start_stop_button.config(image=startButton, command=start_app)
     running = False
 
 def reset_app():
@@ -84,8 +82,7 @@ def reset_app():
     global imp
     imp = []
     imp_label.config(text="100.0")
-    start_button.config( image=startButtonActive)
-    stop_button.config(image=stopButtonInactive)
+    start_stop_button.config(image=startButton, command=start_app)
     temp_warn.config(text="Warning!", bg=offwhite)
     imp_warn.config(text="Warning!", bg=offwhite)
     plot_data(temp, imp)
@@ -253,17 +250,11 @@ canvas_widget2.grid(row=7, column=0, rowspan=4, columnspan=5, sticky='')
 # Plot initial data
 plot_data(temp, imp)
 
-# Start button
-startButtonActive = tk.PhotoImage(file="images/start_button_active.png")
-startButtonInactive = tk.PhotoImage(file="images/start_button_inactive.png")
-start_button = tk.Button(root, image=startButtonActive, text="Start", border=0, command=start_app, font=("Helvetica", 14))
-start_button.grid(row=11, column=1, columnspan=1, sticky='')
-
-# Stop button
-stopButtonActive = tk.PhotoImage(file="images/stop_button_active.png")
-stopButtonInactive = tk.PhotoImage(file="images/stop_button_inactive.png")
-stop_button = tk.Button(root, image=stopButtonInactive, text="Stop", border=0, command=stop_app, font=("Helvetica", 14))
-stop_button.grid(row=11, column=2, columnspan=1, sticky='')
+# Start/Stop button
+startButton = tk.PhotoImage(file="images/start_button_active.png")
+stopButton = tk.PhotoImage(file="images/stop_button_active.png")
+start_stop_button = tk.Button(root, image=startButton, text="Stop", border=0, command=stop_app, font=("Helvetica", 14))
+start_stop_button.grid(row=11, column=2, columnspan=1, sticky='')
 
 # Reset button
 resetButton = tk.PhotoImage(file="images/reset_button.png")
