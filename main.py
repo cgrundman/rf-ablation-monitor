@@ -156,7 +156,7 @@ def plot_data(temp, imp):
 # Initialize the tkinter Application
 root = tk.Tk()
 root.title("RF Ablation Simulator")
-root.geometry("800x700")
+root.geometry("850x700")
 root.configure(background=offwhite)
 
 # Initialize the temperature
@@ -189,13 +189,17 @@ temp_thresh_label.grid(row=4, column=5, sticky='')
 temp_thresh_frame = tk.Frame(root)
 temp_thresh_frame.grid(row=5, column=5, sticky='')
 
-temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=increase_temp_thresh) # Threshold Increase
-temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=reset_temp_thresh) # Threshold Reset
-temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=decrease_temp_thresh) # Threshold Decrease
+resetButtonBlue = tk.PhotoImage(file="images/reset_blue.png")
+plus1Button = tk.PhotoImage(file="images/plus_1.png")
+minus1Button = tk.PhotoImage(file="images/minus_1.png")
 
-temp_thresh_up.pack(side="left")
-temp_thresh_reset.pack(side="left")
+temp_thresh_up = tk.Button(temp_thresh_frame, image=plus1Button, border=0, command=increase_temp_thresh) # Threshold Increase
+temp_thresh_reset = tk.Button(temp_thresh_frame, image=resetButtonBlue, border=0, command=reset_temp_thresh) # Threshold Reset
+temp_thresh_down = tk.Button(temp_thresh_frame, image=minus1Button, border=0, command=decrease_temp_thresh) # Threshold Decrease
+
 temp_thresh_down.pack(side="left")
+temp_thresh_reset.pack(side="left")
+temp_thresh_up.pack(side="left")
 
 # Impedence Title Label
 imp_title = tk.Label(root, text="Impedence", bg=offwhite, font=("Helvetica", 24))
@@ -217,13 +221,16 @@ imp_thresh_label.grid(row=9, column=5, sticky='')
 imp_thresh_frame = tk.Frame(root)
 imp_thresh_frame.grid(row=10, column=5, sticky='')
 
-imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", bg=blue, font=("Helvetica", 14), command=increase_imp_thresh) # Threshold Increase
-imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", bg=blue, font=("Helvetica", 14), command=reset_imp_thresh) # Threshold Reset
-imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", bg=blue, font=("Helvetica", 14), command=decrease_imp_thresh) # Threshold Decrease
+plus10Button = tk.PhotoImage(file="images/plus_10.png")
+minus10Button = tk.PhotoImage(file="images/minus_10.png")
 
-imp_thresh_up.pack(side="left")
-imp_thresh_reset.pack(side="left")
+imp_thresh_up = tk.Button(imp_thresh_frame, image=plus10Button, border=0, command=increase_imp_thresh) # Threshold Increase
+imp_thresh_reset = tk.Button(imp_thresh_frame, image=resetButtonBlue, border=0, command=reset_imp_thresh) # Threshold Reset
+imp_thresh_down = tk.Button(imp_thresh_frame, image=minus10Button, border=0, command=decrease_imp_thresh) # Threshold Decrease
+
 imp_thresh_down.pack(side="left")
+imp_thresh_reset.pack(side="left")
+imp_thresh_up.pack(side="left")
 
 # Temperature Graph
 figure1, ax1 = plt.subplots()
