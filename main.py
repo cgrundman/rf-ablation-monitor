@@ -35,18 +35,21 @@ def simulation():
             # Threshold Exceeded Notifications
             if temp[-1] > temp_thresh:
                 temp_warn.config(text="Exceeded!", bg="#f00")
+                stop_button.config(image=stopButtonInactive)
             if imp[-1] > imp_thresh:
                 imp_warn.config(text="Exceeded!", bg="#f00")
+                stop_button.config(image=stopButtonInactive)
 
             if temp[-1] <= temp_thresh and imp[-1] <= imp_thresh:  # Only continue updating if less than thresholds
                 root.after(500, update_data)
 
         # High Level Notifications
-        if temp[-1] > temp_thresh - 5.0 and temp[-1] <= temp_thresh:
-            temp_warn.config(bg="#FFA500")
+        if len(temp) > 0:
+            if temp[-1] > temp_thresh - 5.0 and temp[-1] <= temp_thresh:
+                temp_warn.config(bg="#FFA500")
 
-        if imp[-1] > imp_thresh - 40.0 and imp[-1] <= imp_thresh:
-            imp_warn.config(bg="#FFA500")
+            if imp[-1] > imp_thresh - 40.0 and imp[-1] <= imp_thresh:
+                imp_warn.config(bg="#FFA500")
 
     # Set Initial temperature and impedence
     global temp
@@ -61,14 +64,14 @@ def simulation():
 def start_app():
     global running
     running = True
-    start_button.config(state=tk.DISABLED)  # Disable button while simulating
-    stop_button.config(state=tk.NORMAL)  # Disable button while simulating
+    start_button.config( image=startButtonInactive)  # Disable button while simulating
+    stop_button.config(image=stopButtonActive,)  # Disable button while simulating
     simulation()
 
 def stop_app():
     global running
-    start_button.config(state=tk.NORMAL)  # Disable button while simulating
-    stop_button.config(state=tk.DISABLED)  # Disable button while simulating
+    start_button.config( image=startButtonActive)  # Disable button while simulating
+    stop_button.config(image=stopButtonInactive)  # Disable button while simulating
     running = False
 
 def reset_app():
@@ -81,8 +84,8 @@ def reset_app():
     global imp
     imp = []
     imp_label.config(text="100.0")
-    start_button.config(state=tk.NORMAL)
-    stop_button.config(state=tk.DISABLED)
+    start_button.config( image=startButtonActive)
+    stop_button.config(image=stopButtonInactive)
     temp_warn.config(text="Warning!", bg=offwhite)
     imp_warn.config(text="Warning!", bg=offwhite)
     plot_data(temp, imp)
@@ -135,7 +138,6 @@ def plot_data(temp, imp):
     ax1.set_xlim(int(min(len(temp) - 20, 0)), int(min(len(temp) - 1, 19)))
     ax1.set_ylim(34, int(temp_thresh + 3.0))
     ax1.fill_between(x, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
-    ax1.set_facecolor(dark_gray)
     ax1.set_xticklabels([])
     ax1.grid()
     ax1.plot(temp[-20:], "-")
@@ -187,9 +189,9 @@ temp_thresh_label.grid(row=4, column=5, sticky='')
 temp_thresh_frame = tk.Frame(root)
 temp_thresh_frame.grid(row=5, column=5, sticky='')
 
-temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", font=("Helvetica", 14), command=increase_temp_thresh) # Threshold Increase
-temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_temp_thresh) # Threshold Reset
-temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", font=("Helvetica", 14), command=decrease_temp_thresh) # Threshold Decrease
+temp_thresh_up = tk.Button(temp_thresh_frame, text="+1", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=increase_temp_thresh) # Threshold Increase
+temp_thresh_reset = tk.Button(temp_thresh_frame, text="reset", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=reset_temp_thresh) # Threshold Reset
+temp_thresh_down = tk.Button(temp_thresh_frame, text="-1", fg=light_gray, bg=blue, border=0, font=("Helvetica", 14), command=decrease_temp_thresh) # Threshold Decrease
 
 temp_thresh_up.pack(side="left")
 temp_thresh_reset.pack(side="left")
@@ -215,9 +217,9 @@ imp_thresh_label.grid(row=9, column=5, sticky='')
 imp_thresh_frame = tk.Frame(root)
 imp_thresh_frame.grid(row=10, column=5, sticky='')
 
-imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", font=("Helvetica", 14), command=increase_imp_thresh) # Threshold Increase
-imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", font=("Helvetica", 14), command=reset_imp_thresh) # Threshold Reset
-imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", font=("Helvetica", 14), command=decrease_imp_thresh) # Threshold Decrease
+imp_thresh_up = tk.Button(imp_thresh_frame, text="+10", bg=blue, font=("Helvetica", 14), command=increase_imp_thresh) # Threshold Increase
+imp_thresh_reset = tk.Button(imp_thresh_frame, text="reset", bg=blue, font=("Helvetica", 14), command=reset_imp_thresh) # Threshold Reset
+imp_thresh_down = tk.Button(imp_thresh_frame, text="-10", bg=blue, font=("Helvetica", 14), command=decrease_imp_thresh) # Threshold Decrease
 
 imp_thresh_up.pack(side="left")
 imp_thresh_reset.pack(side="left")
@@ -245,20 +247,25 @@ canvas_widget2.grid(row=7, column=0, rowspan=4, columnspan=5, sticky='')
 plot_data(temp, imp)
 
 # Start button
-start_button = tk.Button(root, text="Start", command=start_app, font=("Helvetica", 14))
+startButtonActive = tk.PhotoImage(file="images/start_button_active.png")
+startButtonInactive = tk.PhotoImage(file="images/start_button_inactive.png")
+start_button = tk.Button(root, image=startButtonActive, text="Start", border=0, command=start_app, font=("Helvetica", 14))
 start_button.grid(row=11, column=1, columnspan=1, sticky='')
 
 # Stop button
-stop_button = tk.Button(root, text="Stop", command=stop_app, font=("Helvetica", 14))
+stopButtonActive = tk.PhotoImage(file="images/stop_button_active.png")
+stopButtonInactive = tk.PhotoImage(file="images/stop_button_inactive.png")
+stop_button = tk.Button(root, image=stopButtonInactive, text="Stop", border=0, command=stop_app, font=("Helvetica", 14))
 stop_button.grid(row=11, column=2, columnspan=1, sticky='')
-stop_button.config(state=tk.DISABLED)  # Disable button initially
 
 # Reset button
-reset_button = tk.Button(root, text="Reset", command=reset_app, font=("Helvetica", 14))
+resetButton = tk.PhotoImage(file="images/reset_button.png")
+reset_button = tk.Button(root, image=resetButton, text="Reset", border=0, command=reset_app, font=("Helvetica", 14))
 reset_button.grid(row=11, column=3, columnspan=1, sticky='')
 
 # Close button
-close_button = tk.Button(root, text="Close", command=close_app, font=("Helvetica", 14))
+closeButton = tk.PhotoImage(file="images/close_button.png")
+close_button = tk.Button(root, image=closeButton, text="Close", border=0, command=close_app, font=("Helvetica", 14))
 close_button.grid(row=11, column=4, columnspan=1, sticky='')
 
 # Run the tkinter main loop
