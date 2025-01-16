@@ -32,8 +32,14 @@ class Simulation:
         self.stop()
         self.temp = [37.0]
         self.imp = [100.0]
-        self.threshold_manager.reset_thresholds()
-        self.plot_manager.update_plots(self.temp, self.imp)
+        self.threshold_manager.reset_temperature()
+        self.threshold_manager.reset_impedance()
+        self.plot_manager.update_plots(
+            self.temp, 
+            self.imp, 
+            self.threshold_manager.get_threshold("temp"), 
+            self.threshold_manager.get_threshold("imp")
+        )
         self.update_ui_callback()
 
     def update_data(self):
