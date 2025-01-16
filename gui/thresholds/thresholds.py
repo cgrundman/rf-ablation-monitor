@@ -3,6 +3,12 @@ class ThresholdManager:
         self.temperature_threshold = 60.0
         self.impedance_threshold = 300.0
 
+    def get_threshold(self, threshold_type):
+        if threshold_type == "imp":
+            return self.impedance_threshold
+        else:
+            return self.temperature_threshold
+
     def increase_temperature(self, amount=1.0):
         self.temperature_threshold += amount
 
