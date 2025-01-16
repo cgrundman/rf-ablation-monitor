@@ -48,8 +48,8 @@ class Simulation:
             self.imp[-1] = round(self.imp[-1], 2)
 
             # Check thresholds
-            temp_exceeded = self.temp[-1] > self.threshold_manager.temp_thresh
-            imp_exceeded = self.imp[-1] > self.threshold_manager.imp_thresh
+            temp_exceeded = self.temp[-1] > self.threshold_manager.temperature_threshold
+            imp_exceeded = self.imp[-1] > self.threshold_manager.impedance_threshold
 
             if temp_exceeded or imp_exceeded:
                 self.stop()
@@ -58,7 +58,12 @@ class Simulation:
             self.update_ui_callback()
 
             # Update the plots
-            self.plot_manager.update_plots(self.temp, self.imp)
+            self.plot_manager.update_plots(
+                self.temp, 
+                self.imp, 
+                self.threshold_manager.temperature_threshold, 
+                self.threshold_manager.impedance_threshold
+            )
 
             # Schedule the next update
             if not temp_exceeded and not imp_exceeded:
