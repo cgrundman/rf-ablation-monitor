@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from gui.styles import Styles
+from gui.styles.styles import Styles
 
 class PlotManager:
     def __init__(self, root, threshold_manager):

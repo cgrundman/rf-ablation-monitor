@@ -15,7 +15,10 @@ class Application:
         self.root = root
         self.root.title("RF Ablation Simulator")
         self.root.geometry("850x700")
-        self.root.configure(background="#f5fbfa")  # Offwhite background
+        self.root.configure(background=Styles.OFFWHITE)  # Offwhite background
+        
+        # Running state variable
+        self.simulation_running = False
 
         # Initialize Managers
         self.threshold_manager = ThresholdManager()
@@ -29,7 +32,7 @@ class Application:
         """Sets up the UI components for the application."""
         # Main Title
         tk.Label(
-            self.root, text="RF Ablation Simulation", bg="#f5fbfa", font=("Helvetica", 36)
+            self.root, text="RF Ablation Simulation", bg=Styles.OFFWHITE, font=("Helvetica", 36)
         ).grid(row=0, column=0, columnspan=6, sticky="")
 
         # Temperature Section
@@ -50,18 +53,17 @@ class Application:
             row_start (int): Starting row for the section.
             threshold_type (str): Either 'temp' or 'imp' for respective thresholds.
         """
-        bg_color = "#f5fbfa"
 
         # Section Title
         tk.Label(
-            self.root, text=title, bg=bg_color, font=("Helvetica", 24)
+            self.root, text=title, bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).grid(row=row_start, column=0, columnspan=6, sticky="")
 
         # Warning Label
         setattr(
             self,
             f"{threshold_type}_warn_label",
-            tk.Label(self.root, text="Warning!", bg=bg_color, fg=bg_color, font=("Helvetica", 24)),
+            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
         )
         getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
 
@@ -69,7 +71,7 @@ class Application:
         setattr(
             self,
             f"{threshold_type}_value_label",
-            tk.Label(self.root, text="0.0", bg=bg_color, font=("Helvetica", 36)),
+            tk.Label(self.root, text="0.0", bg=Styles.OFFWHITE, font=("Helvetica", 36)),
         )
         getattr(self, f"{threshold_type}_value_label").grid(row=row_start + 2, column=5, sticky="")
 
@@ -80,14 +82,14 @@ class Application:
             tk.Label(
                 self.root,
                 text=f"Threshold: {self.threshold_manager.get_threshold(threshold_type)}",
-                bg=bg_color,
+                bg=Styles.OFFWHITE,
                 font=("Helvetica", 16),
             ),
         )
         getattr(self, f"{threshold_type}_threshold_label").grid(row=row_start + 3, column=5, sticky="")
 
         # Threshold Control Buttons
-        threshold_frame = tk.Frame(self.root, bg=bg_color)
+        threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
         threshold_frame.grid(row=row_start + 4, column=5, sticky="")
 
         plus_button = tk.PhotoImage(file=f"images/plus_{'1' if threshold_type == 'temp' else '10'}.png")
@@ -98,18 +100,21 @@ class Application:
             threshold_frame,
             image=minus_button,
             border=0,
+            bg=Styles.OFFWHITE,
             command=lambda: self.update_threshold(threshold_type, "decrease"),
         ).pack(side="left")
         tk.Button(
             threshold_frame,
             image=reset_button,
             border=0,
+            bg=Styles.OFFWHITE,
             command=lambda: self.update_threshold(threshold_type, "reset"),
         ).pack(side="left")
         tk.Button(
             threshold_frame,
             image=plus_button,
             border=0,
+            bg=Styles.OFFWHITE,
             command=lambda: self.update_threshold(threshold_type, "increase"),
         ).pack(side="left")
 
@@ -129,7 +134,8 @@ class Application:
             self.root,
             image=start_button_img,
             border=0,
-            command=self.simulation.start
+            bg=Styles.OFFWHITE,
+            command=self.toggle_simulation
         )
         self.start_stop_button.grid(row=11, column=2, columnspan=1, sticky="")
 
@@ -137,7 +143,8 @@ class Application:
             self.root,
             image=reset_button_img,
             border=0,
-            command=self.simulation.reset
+            bg=Styles.OFFWHITE,
+            command=self.reset_simulation
         )
         self.reset_button.grid(row=11, column=3, columnspan=1, sticky="")
 
@@ -145,6 +152,7 @@ class Application:
             self.root,
             image=close_button_img,
             border=0,
+            bg=Styles.OFFWHITE,
             command=self.root.quit
         )
         self.close_button.grid(row=11, column=4, columnspan=1, sticky="")
@@ -208,3 +216,22 @@ class Application:
 
         # Update the UI after changing thresholds
         self.update_ui()
+
+    def toggle_simulation(self):
+        """Start or stop the simulation."""
+        if self.simulation_running:
+            # Stop simulation
+            self.simulation_running = False
+            self.start_stop_button.config(image=self.start_img)
+            self.simulation.stop()
+        else:
+            # Start simulation
+            self.simulation_running = True
+            self.start_stop_button.config(image=self.stop_img)
+            self.simulation.start()
+
+    def reset_simulation(self):
+        """Reset simulation to the initial state."""
+        self.simulation_running = False
+        self.start_stop_button.config(image=self.start_img)
+        self.simulation.reset()
