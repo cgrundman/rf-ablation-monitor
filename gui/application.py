@@ -2,6 +2,7 @@ import tkinter as tk
 from gui.simulation.simulation import Simulation
 from gui.thresholds.thresholds import ThresholdManager
 from utils.plotting import PlotManager
+from gui.styles.styles import Styles
 
 class Application:
     def __init__(self, root):
@@ -127,30 +128,26 @@ class Application:
         self.start_stop_button = tk.Button(
             self.root,
             image=start_button_img,
-            text="Start",
             border=0,
-            command=self.simulation.start,
-            font=("Helvetica", 14),
+            command=self.simulation.start
         )
         self.start_stop_button.grid(row=11, column=2, columnspan=1, sticky="")
 
-        tk.Button(
+        self.reset_button = tk.Button(
             self.root,
             image=reset_button_img,
-            text="Reset",
             border=0,
-            command=self.simulation.reset,
-            font=("Helvetica", 14),
-        ).grid(row=11, column=3, columnspan=1, sticky="")
+            command=self.simulation.reset
+        )
+        self.reset_button.grid(row=11, column=3, columnspan=1, sticky="")
 
-        tk.Button(
+        self.close_button = tk.Button(
             self.root,
             image=close_button_img,
-            text="Close",
             border=0,
-            command=self.root.quit,
-            font=("Helvetica", 14),
-        ).grid(row=11, column=4, columnspan=1, sticky="")
+            command=self.root.quit
+        )
+        self.close_button.grid(row=11, column=4, columnspan=1, sticky="")
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
@@ -167,9 +164,22 @@ class Application:
         # Update threshold warnings
         temp_exceeded = self.simulation.temp[-1] > self.threshold_manager.get_threshold("temp")
         imp_exceeded = self.simulation.imp[-1] > self.threshold_manager.get_threshold("imp")
+        temp_high = self.simulation.temp[-1] > self.threshold_manager.get_threshold("temp") - 5.0
+        imp_high = self.simulation.imp[-1] > self.threshold_manager.get_threshold("imp") - 40.0
 
-        self.temp_warn_label.config(bg="#f00" if temp_exceeded else "#f5fbfa")
-        self.imp_warn_label.config(bg="#f00" if imp_exceeded else "#f5fbfa")
+        if temp_exceeded:
+            self.temp_warn_label.config(bg=Styles.WARNING_RED, text="Exceeded!")
+        elif temp_high:
+            self.temp_warn_label.config(bg=Styles.WARNING_ORANGE, text="Warning!")
+        else:
+            self.temp_warn_label.config(bg=Styles.OFFWHITE, text="Warning!")
+
+        if imp_exceeded:
+            self.imp_warn_label.config(bg=Styles.WARNING_RED, text="Exceeded!")
+        elif imp_high:
+            self.imp_warn_label.config(bg=Styles.WARNING_ORANGE, text="Warning!")
+        else:
+            self.imp_warn_label.config(bg=Styles.OFFWHITE, text="Warning!")
 
         # Update threshold labels
         self.temp_threshold_label.config(
