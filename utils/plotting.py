@@ -8,6 +8,8 @@ class PlotManager:
         self.threshold_manager = threshold_manager
         self.temp_plot = None
         self.imp_plot = None
+        self.create_temperature_plot()
+        self.create_impedance_plot()
 
     def create_temperature_plot(self):
         # Create temperature graph
