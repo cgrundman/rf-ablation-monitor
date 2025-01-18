@@ -14,7 +14,7 @@ class Application:
         """
         self.root = root
         self.root.title("RF Ablation Simulator")
-        self.root.geometry("850x700")
+        self.root.geometry("1100x750")
         self.root.configure(background=Styles.OFFWHITE)  # Offwhite background
         
         # Running state variable
@@ -129,6 +129,8 @@ class Application:
         stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
         reset_button_img = tk.PhotoImage(file="images/reset_button.png")
         close_button_img = tk.PhotoImage(file="images/close_button.png")
+        device_button_pressed = tk.PhotoImage(file="images/button_pressed.png")
+        device_button_unpressed = tk.PhotoImage(file="images/button_unpressed.png")
 
         self.start_stop_button = tk.Button(
             self.root,
@@ -157,11 +159,21 @@ class Application:
         )
         self.close_button.grid(row=11, column=4, columnspan=1, sticky="")
 
+        self.device_button = tk.Button(
+            self.root,
+            image=device_button_unpressed,
+            border=0,
+            bg=Styles.OFFWHITE
+        )
+        self.device_button.grid(row=7, column=6, sticky="")
+
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
         self.stop_img = stop_button_img
         self.reset_img = reset_button_img
         self.close_img = close_button_img
+        self.device_button_pressed = device_button_pressed
+        self.device_button_unpressed = device_button_unpressed
 
     def update_ui(self):
         """Updates the UI elements based on the current simulation state."""
