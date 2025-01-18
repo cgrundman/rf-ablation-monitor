@@ -46,11 +46,15 @@ class Simulation:
         """Updates the simulation data and continues if running."""
         if self.running:
             # Update temperature
-            self.temp.append(self.temp[-1] + 0.1)  # Increment temperature
+            # steady_state = self.threshold_manager.get_threshold("temp") # + 3
+            steady_state = 37.0
+            new_temp = self.temp[-1] + 0.1*min(steady_state - self.temp[-1], 2)
+            self.temp.append(new_temp)  # Increment temperature
             self.temp[-1] = round(self.temp[-1], 2)
 
             # Update impedance
-            self.imp.append(self.imp[-1] + 0.9)  # Increment impedance
+            # self.imp.append(self.imp[-1] + 9)  # Increment impedance
+            self.imp.append(self.imp[-1])
             self.imp[-1] = round(self.imp[-1], 2)
 
             # Check thresholds
@@ -73,4 +77,4 @@ class Simulation:
 
             # Schedule the next update
             if not temp_exceeded and not imp_exceeded:
-                self.plot_manager.root.after(500, self.update_data)
+                self.plot_manager.root.after(50, self.update_data)
