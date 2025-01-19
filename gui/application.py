@@ -159,13 +159,17 @@ class Application:
         )
         self.close_button.grid(row=11, column=3, columnspan=1, sticky="")
 
-        self.device_button = tk.Button(
+        self.ablate_button = tk.Button(
             self.root,
             image=device_button_unpressed,
             border=0,
             bg=Styles.OFFWHITE
         )
-        self.device_button.grid(row=7, column=6, sticky="")
+        self.ablate_button.grid(row=7, column=6, sticky="")
+        
+        # Bind events for press and release
+        self.ablate_button.bind("<ButtonPress-1>", self.turn_on)  # When the button is pressed
+        self.ablate_button.bind("<ButtonRelease-1>", self.turn_off)  # When the button is released
 
         self.position_button = tk.Button(
             self.root,
@@ -255,3 +259,13 @@ class Application:
         self.simulation_running = False
         self.start_stop_button.config(image=self.start_img)
         self.simulation.reset()
+
+    def turn_on(self, event):
+        """Turn the state on and update the UI."""
+        self.ablating = True
+        self.ablate_button.config(image=self.device_button_pressed)
+
+    def turn_off(self, event):
+        """Turn the state off and update the UI."""
+        self.ablating = False
+        self.ablate_button.config(image=self.device_button_unpressed)
