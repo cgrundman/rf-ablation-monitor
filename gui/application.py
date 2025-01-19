@@ -14,7 +14,7 @@ class Application:
         """
         self.root = root
         self.root.title("RF Ablation Simulator")
-        self.root.geometry("1100x750")
+        self.root.geometry("1350x750")
         self.root.configure(background=Styles.OFFWHITE)  # Offwhite background
         
         # Running state variable
@@ -139,7 +139,7 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.toggle_simulation
         )
-        self.start_stop_button.grid(row=11, column=2, columnspan=1, sticky="")
+        self.start_stop_button.grid(row=11, column=1, columnspan=1, sticky="")
 
         self.reset_button = tk.Button(
             self.root,
@@ -148,7 +148,7 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.reset_simulation
         )
-        self.reset_button.grid(row=11, column=3, columnspan=1, sticky="")
+        self.reset_button.grid(row=11, column=2, columnspan=1, sticky="")
 
         self.close_button = tk.Button(
             self.root,
@@ -157,7 +157,7 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.root.quit
         )
-        self.close_button.grid(row=11, column=4, columnspan=1, sticky="")
+        self.close_button.grid(row=11, column=3, columnspan=1, sticky="")
 
         self.device_button = tk.Button(
             self.root,
@@ -166,6 +166,14 @@ class Application:
             bg=Styles.OFFWHITE
         )
         self.device_button.grid(row=7, column=6, sticky="")
+
+        self.position_button = tk.Button(
+            self.root,
+            image=device_button_pressed,
+            border=0,
+            bg=Styles.OFFWHITE
+        )
+        self.position_button.grid(row=7, column=7, sticky="")
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
