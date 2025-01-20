@@ -56,6 +56,10 @@ class Simulation:
         """Ends ablation."""
         self.ablating = False
 
+    def reposition(self):
+        """Reposition the device (reset impedence)"""
+        self.imp.append(100.0)
+
     def update_data(self):
         """Updates the simulation data and continues if running."""
         if self.running:
@@ -80,7 +84,6 @@ class Simulation:
             # Check thresholds
             temp_exceeded = self.temp[-1] > self.threshold_manager.temperature_threshold
             imp_exceeded = self.imp[-1] > self.threshold_manager.impedance_threshold
-
             if temp_exceeded or imp_exceeded:
                 self.stop()
 
@@ -98,4 +101,4 @@ class Simulation:
 
             # Schedule the next update
             if not temp_exceeded and not imp_exceeded:
-                self.plot_manager.root.after(50, self.update_data)
+                self.plot_manager.root.after(1, self.update_data)

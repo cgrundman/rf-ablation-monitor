@@ -181,7 +181,8 @@ class Application:
             self.root,
             image=device_button_pressed,
             border=0,
-            bg=Styles.OFFWHITE
+            bg=Styles.OFFWHITE,
+            command=self.simulation.reposition
         )
         self.positioning_button.grid(row=7, column=7, columnspan=3, rowspan=4, sticky="")
 
