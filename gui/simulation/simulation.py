@@ -14,6 +14,7 @@ class Simulation:
         self.update_ui_callback = update_ui_callback
 
         self.running = False
+        self.ablating = False
         self.temp = [37.0]  # Initial temperature
         self.imp = [100.0]  # Initial impedance
 
@@ -42,6 +43,16 @@ class Simulation:
         )
         self.update_ui_callback()
 
+    def ablate(self):
+        """Starts ablation."""
+        if not self.ablating:
+            self.ablating = True
+            self.update_data()
+    
+    def end_ablate(self):
+        """Ends ablation."""
+        self.ablating = False
+
     def update_data(self):
         """Updates the simulation data and continues if running."""
         if self.running:
@@ -53,8 +64,10 @@ class Simulation:
             self.temp[-1] = round(self.temp[-1], 2)
 
             # Update impedance
-            # self.imp.append(self.imp[-1] + 9)  # Increment impedance
-            self.imp.append(self.imp[-1])
+            if self.ablating:
+                self.imp.append(self.imp[-1] + 9)  # Increment impedance
+            else:
+                self.imp.append(self.imp[-1])
             self.imp[-1] = round(self.imp[-1], 2)
 
             # Check thresholds
