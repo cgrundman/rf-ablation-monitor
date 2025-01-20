@@ -56,20 +56,24 @@ class PlotManager:
             self.ax1.fill_between(indexes, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
             self.ax1.plot(indexes, temp[-20:], "-")
         self.ax1.set_ylim(34, int(temp_thresh + 3.0))
-        
         self.ax1.axhline(y=temp_thresh, xmin=0, xmax=3, ls="--", c="r", lw=2)
         self.ax1.set_xticklabels([])
         self.ax1.grid()
-        
         self.canvas1.draw()
+
         # Update impedence plot
-        x = [-50, 10, 10000]
         self.ax2.cla()
-        self.ax2.set_xlim(int(min(len(imp) - 20, 0)), int(min(len(imp) - 1, 19)))
+        if len(indexes) < 20:
+            self.ax2.set_xlim(initial_indexes[0], initial_indexes[-1])
+            self.ax2.fill_between(initial_indexes, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
+            j = len(imp)
+            self.ax2.plot(initial_indexes[-j:], imp, "-")
+        else:
+            self.ax2.set_xlim(indexes[0], indexes[-1])
+            self.ax2.fill_between(indexes, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
+            self.ax2.plot(indexes, imp[-20:], "-")
         self.ax2.set_ylim(75, int(imp_thresh + 25.0))
-        self.ax2.fill_between(x, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
         self.ax2.axhline(y=imp_thresh,xmin=0,xmax=3,ls="--",c="r",lw=2)
         self.ax2.set_xticklabels([])
         self.ax2.grid()
-        self.ax2.plot(imp[-20:], "-")
         self.canvas2.draw()
