@@ -39,21 +39,31 @@ class PlotManager:
         canvas_widget2 = self.canvas2.get_tk_widget()
         canvas_widget2.grid(row=7, column=0, rowspan=4, columnspan=5, sticky='')
 
-    def update_plots(self, temp, imp, temp_thresh, imp_thresh):
+    def update_plots(self, idxs, temp, imp, temp_thresh, imp_thresh):
         # Logic to update Matplotlib plots
+        indexes = idxs[-20:]
+        initial_indexes = list(range(-19, 1))
 
         # Update temperature plot
-        x = [-50, 10, 10000]
         self.ax1.cla()
-        self.ax1.set_xlim(int(min(len(temp) - 20, 0)), int(min(len(temp) - 1, 19)))
+        if len(indexes) < 20:
+            self.ax1.set_xlim(initial_indexes[0], initial_indexes[-1])
+            self.ax1.fill_between(initial_indexes, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
+            i = len(temp)
+            self.ax1.plot(initial_indexes[-i:], temp, "-")
+        else:
+            self.ax1.set_xlim(indexes[0], indexes[-1])
+            self.ax1.fill_between(indexes, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
+            self.ax1.plot(indexes, temp[-20:], "-")
         self.ax1.set_ylim(34, int(temp_thresh + 3.0))
-        self.ax1.fill_between(x, temp_thresh - 5.0, temp_thresh, color='#FFA500', alpha=0.5)
-        self.ax1.axhline(y=temp_thresh,xmin=0,xmax=3,ls="--",c="r",lw=2)
+        
+        self.ax1.axhline(y=temp_thresh, xmin=0, xmax=3, ls="--", c="r", lw=2)
         self.ax1.set_xticklabels([])
         self.ax1.grid()
-        self.ax1.plot(temp[-20:], "-")
+        
         self.canvas1.draw()
         # Update impedence plot
+        x = [-50, 10, 10000]
         self.ax2.cla()
         self.ax2.set_xlim(int(min(len(imp) - 20, 0)), int(min(len(imp) - 1, 19)))
         self.ax2.set_ylim(75, int(imp_thresh + 25.0))

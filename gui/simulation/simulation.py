@@ -15,6 +15,7 @@ class Simulation:
 
         self.running = False
         self.ablating = False
+        self.idxs = [0] # Set initial index
         self.temp = [37.0]  # Initial temperature
         self.imp = [100.0]  # Initial impedance
 
@@ -31,11 +32,13 @@ class Simulation:
     def reset(self):
         """Resets the simulation to its initial state."""
         self.stop()
+        self.idxs = [0]
         self.temp = [37.0]
         self.imp = [100.0]
         self.threshold_manager.reset_temperature()
         self.threshold_manager.reset_impedance()
         self.plot_manager.update_plots(
+            self.idxs,
             self.temp, 
             self.imp, 
             self.threshold_manager.get_threshold("temp"), 
@@ -56,6 +59,9 @@ class Simulation:
     def update_data(self):
         """Updates the simulation data and continues if running."""
         if self.running:
+            # Update x-values
+            self.idxs.append(self.idxs[-1] + 1)
+
             # Update temperature
             # steady_state = self.threshold_manager.get_threshold("temp") # + 3
             steady_state = 37.0
@@ -82,6 +88,7 @@ class Simulation:
 
             # Update the plots
             self.plot_manager.update_plots(
+                self.idxs,
                 self.temp, 
                 self.imp, 
                 self.threshold_manager.temperature_threshold, 
