@@ -63,10 +63,11 @@ class Simulation:
             self.idxs.append(self.idxs[-1] + 1)
 
             # Update temperature
-            # steady_state = self.threshold_manager.get_threshold("temp") # + 3
             steady_state = 37.0
-            new_temp = self.temp[-1] + 0.1*min(steady_state - self.temp[-1], 2)
-            self.temp.append(new_temp)  # Increment temperature
+            if self.ablating:
+                self.temp.append(self.temp[-1] + 0.5) # Increment temperature
+            else:
+                self.temp.append(self.temp[-1] + 0.01*min(steady_state - self.temp[-1], 2))
             self.temp[-1] = round(self.temp[-1], 2)
 
             # Update impedance
