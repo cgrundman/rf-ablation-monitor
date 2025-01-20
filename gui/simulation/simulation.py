@@ -16,8 +16,8 @@ class Simulation:
         self.running = False
         self.ablating = False
         self.idxs = [0] # Set initial index
-        self.temp = [37.0]  # Initial temperature
-        self.imp = [100.0]  # Initial impedance
+        self.temp = [37.0] # Initial temperature
+        self.imp = [100.0] # Initial impedance
 
     def start(self):
         """Starts the simulation."""
@@ -32,6 +32,7 @@ class Simulation:
     def reset(self):
         """Resets the simulation to its initial state."""
         self.stop()
+        self.end_ablate()
         self.idxs = [0]
         self.temp = [37.0]
         self.imp = [100.0]
@@ -50,7 +51,6 @@ class Simulation:
         """Starts ablation."""
         if not self.ablating:
             self.ablating = True
-            self.update_data()
     
     def end_ablate(self):
         """Ends ablation."""

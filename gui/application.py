@@ -172,10 +172,6 @@ class Application:
             command=self.toggle_ablation
         )
         self.ablate_button.grid(row=2, column=7, columnspan=3, rowspan=4, sticky="")
-        
-        # Bind events for press and release
-        # self.ablate_button.bind("<ButtonPress-1>", self.turn_on)  # When the button is pressed
-        # self.ablate_button.bind("<ButtonRelease-1>", self.turn_off)  # When the button is released
 
         tk.Label(
             self.root, text="Postioning", bg=Styles.OFFWHITE, font=("Helvetica", 24)
@@ -276,13 +272,13 @@ class Application:
 
     def toggle_ablation(self):
         """Toggle ablation state."""
-        if not self.ablating:
-            # Start ablating
-            self.ablating = True
-            self.ablate_button.config(image=self.device_button_pressed)
-            self.simulation.ablate()
-        else:
+        if self.ablating:
             # Stop Ablating
             self.ablating = False
             self.ablate_button.config(image=self.device_button_unpressed)
             self.simulation.end_ablate()
+        else:
+            # Start ablating
+            self.ablating = True
+            self.ablate_button.config(image=self.device_button_pressed)
+            self.simulation.ablate()
