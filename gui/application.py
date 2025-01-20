@@ -140,7 +140,7 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.toggle_simulation
         )
-        self.start_stop_button.grid(row=11, column=1, columnspan=1, sticky="")
+        self.start_stop_button.grid(row=11, column=7, columnspan=1, sticky="")
 
         self.reset_button = tk.Button(
             self.root,
@@ -149,7 +149,7 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.reset_simulation
         )
-        self.reset_button.grid(row=11, column=2, columnspan=1, sticky="")
+        self.reset_button.grid(row=11, column=8, columnspan=1, sticky="")
 
         self.close_button = tk.Button(
             self.root,
@@ -158,7 +158,11 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.root.quit
         )
-        self.close_button.grid(row=11, column=3, columnspan=1, sticky="")
+        self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
+
+        tk.Label(
+            self.root, text="Ablation", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=1, column=7, columnspan=3, sticky="")
 
         self.ablate_button = tk.Button(
             self.root,
@@ -167,19 +171,27 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.toggle_ablation
         )
-        self.ablate_button.grid(row=7, column=6, sticky="")
+        self.ablate_button.grid(row=2, column=7, columnspan=3, rowspan=4, sticky="")
         
         # Bind events for press and release
         # self.ablate_button.bind("<ButtonPress-1>", self.turn_on)  # When the button is pressed
         # self.ablate_button.bind("<ButtonRelease-1>", self.turn_off)  # When the button is released
 
-        self.position_button = tk.Button(
+        tk.Label(
+            self.root, text="Postioning", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=6, column=7, columnspan=3, sticky="")
+
+        self.positioning_button = tk.Button(
             self.root,
             image=device_button_pressed,
             border=0,
             bg=Styles.OFFWHITE
         )
-        self.position_button.grid(row=7, column=7, sticky="")
+        self.positioning_button.grid(row=7, column=7, columnspan=3, rowspan=4, sticky="")
+
+        self.root.grid_columnconfigure(7, minsize=150)
+        self.root.grid_columnconfigure(8, minsize=150)
+        self.root.grid_columnconfigure(9, minsize=150)
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
