@@ -194,6 +194,26 @@ class Application:
         stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
         reset_button_img = tk.PhotoImage(file="images/reset_button.png")
         close_button_img = tk.PhotoImage(file="images/close_button.png")
+        on_img = tk.PhotoImage(file="images/on.png")
+        off_img = tk.PhotoImage(file="images/off.png")
+
+        self.app_button_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
+        self.app_button_frame.grid(row=11, column=7, sticky="")
+
+        self.off_img_label = tk.Label(
+            self.app_button_frame, image=off_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).pack(side="left")
+        self.start_stop_button = tk.Button(
+            self.app_button_frame,
+            image=start_button_img,
+            border=0,
+            bg=Styles.OFFWHITE,
+            command=self.toggle_simulation
+        ).pack(side="left")
+        self.on_img_label = tk.Label(
+            self.app_button_frame, image=on_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).pack(side="left")
+
         self.reset_button = tk.Button(
             self.root,
             image=reset_button_img,
@@ -217,8 +237,7 @@ class Application:
         self.stop_img = stop_button_img
         self.reset_img = reset_button_img
         self.close_img = close_button_img
-        self.device_button_pressed = device_button_pressed
-        self.device_button_unpressed = device_button_unpressed
+        self.on_img = on_img
 
     def update_ui(self):
         """Updates the UI elements based on the current simulation state."""
