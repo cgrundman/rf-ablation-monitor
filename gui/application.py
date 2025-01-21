@@ -45,6 +45,9 @@ class Application:
         # Control Buttons
         self.create_controls()
 
+        # Application Buttons
+        self.create_application_buttons()
+
     def create_monitor(self):
         # Temperature Section
         self.create_monitor_plot("Temperature", row_start=1, threshold_type="temp")
@@ -148,40 +151,8 @@ class Application:
         self.create_control_buttons()
 
     def create_control_buttons(self):
-        """Creates Start/Stop, Reset, and Close buttons."""
-        start_button_img = tk.PhotoImage(file="images/start_button_active.png")
-        stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
-        reset_button_img = tk.PhotoImage(file="images/reset_button.png")
-        close_button_img = tk.PhotoImage(file="images/close_button.png")
         device_button_pressed = tk.PhotoImage(file="images/button_pressed.png")
         device_button_unpressed = tk.PhotoImage(file="images/button_unpressed.png")
-
-        self.start_stop_button = tk.Button(
-            self.root,
-            image=start_button_img,
-            border=0,
-            bg=Styles.OFFWHITE,
-            command=self.toggle_simulation
-        )
-        self.start_stop_button.grid(row=11, column=7, columnspan=1, sticky="")
-
-        self.reset_button = tk.Button(
-            self.root,
-            image=reset_button_img,
-            border=0,
-            bg=Styles.OFFWHITE,
-            command=self.reset_simulation
-        )
-        self.reset_button.grid(row=11, column=8, columnspan=1, sticky="")
-
-        self.close_button = tk.Button(
-            self.root,
-            image=close_button_img,
-            border=0,
-            bg=Styles.OFFWHITE,
-            command=self.root.quit
-        )
-        self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
 
         tk.Label(
             self.root, text="Ablation", bg=Styles.OFFWHITE, font=("Helvetica", 24)
@@ -212,6 +183,34 @@ class Application:
         self.root.grid_columnconfigure(7, minsize=150)
         self.root.grid_columnconfigure(8, minsize=150)
         self.root.grid_columnconfigure(9, minsize=150)
+
+        # Keep references to the images to prevent garbage collection
+        self.device_button_pressed = device_button_pressed
+        self.device_button_unpressed = device_button_unpressed
+
+    def create_application_buttons(self):
+        """Creates Start/Stop, Reset, and Close buttons."""
+        start_button_img = tk.PhotoImage(file="images/start_button_active.png")
+        stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
+        reset_button_img = tk.PhotoImage(file="images/reset_button.png")
+        close_button_img = tk.PhotoImage(file="images/close_button.png")
+        self.reset_button = tk.Button(
+            self.root,
+            image=reset_button_img,
+            border=0,
+            bg=Styles.OFFWHITE,
+            command=self.reset_simulation
+        )
+        self.reset_button.grid(row=11, column=8, columnspan=1, sticky="")
+
+        self.close_button = tk.Button(
+            self.root,
+            image=close_button_img,
+            border=0,
+            bg=Styles.OFFWHITE,
+            command=self.root.quit
+        )
+        self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
