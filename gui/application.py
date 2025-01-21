@@ -34,18 +34,25 @@ class Application:
         # Main Title
         tk.Label(
             self.root, text="RF Ablation Simulation", bg=Styles.OFFWHITE, font=("Helvetica", 36)
-        ).grid(row=0, column=0, columnspan=6, sticky="")
+        ).grid(row=0, column=0, columnspan=10, sticky="")
 
-        # Temperature Section
-        self.create_section("Temperature", row_start=1, threshold_type="temp")
+        # Monitor Widget
+        self.create_monitor()
 
-        # Impedance Section
-        self.create_section("Impedance", row_start=6, threshold_type="imp")
+        # Threshold Widget
+        self.create_thresholds()
 
         # Control Buttons
-        self.create_control_buttons()
+        self.create_controls()
 
-    def create_section(self, title, row_start, threshold_type):
+    def create_monitor(self):
+        # Temperature Section
+        self.create_monitor_plot("Temperature", row_start=1, threshold_type="temp")
+
+        # Impedance Section
+        self.create_monitor_plot("Impedance", row_start=6, threshold_type="imp")
+
+    def create_monitor_plot(self, title, row_start, threshold_type):
         """
         Creates a section for temperature or impedance display and controls.
 
@@ -57,8 +64,8 @@ class Application:
 
         # Section Title
         tk.Label(
-            self.root, text=title, bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=row_start, column=0, columnspan=6, sticky="")
+            self.root, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=row_start, column=0, columnspan=1, sticky="")
 
         # Warning Label
         setattr(
@@ -72,9 +79,26 @@ class Application:
         setattr(
             self,
             f"{threshold_type}_value_label",
-            tk.Label(self.root, text="0.0", bg=Styles.OFFWHITE, font=("Helvetica", 36)),
+            tk.Label(
+                self.root, 
+                text=f"{'37.0' if threshold_type == 'temp' else '100.0'}", 
+                bg=Styles.OFFWHITE, 
+                font=("Helvetica", 36)
+            ),
         )
-        getattr(self, f"{threshold_type}_value_label").grid(row=row_start + 2, column=5, sticky="")
+        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=1, columnspan=1, sticky="")
+
+    def create_thresholds(self):
+        # Create Temperature Threshold
+        self.create_threshold_section(row_start=1, threshold_type="temp")
+
+        # Create Impedence Threshold
+        self.create_threshold_section(row_start=6, threshold_type="imp")
+
+    def create_threshold_section(self, row_start, threshold_type):
+        # Threshold Control Buttons
+        threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
+        threshold_frame.grid(row=row_start + 4, column=5, sticky="")
 
         # Threshold Display
         setattr(
@@ -88,10 +112,6 @@ class Application:
             ),
         )
         getattr(self, f"{threshold_type}_threshold_label").grid(row=row_start + 3, column=5, sticky="")
-
-        # Threshold Control Buttons
-        threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
-        threshold_frame.grid(row=row_start + 4, column=5, sticky="")
 
         plus_button = tk.PhotoImage(file=f"images/plus_{'1' if threshold_type == 'temp' else '10'}.png")
         minus_button = tk.PhotoImage(file=f"images/minus_{'1' if threshold_type == 'temp' else '10'}.png")
@@ -123,6 +143,9 @@ class Application:
         setattr(self, f"{threshold_type}_plus_img", plus_button)
         setattr(self, f"{threshold_type}_minus_img", minus_button)
         setattr(self, f"{threshold_type}_reset_img", reset_button)
+
+    def create_controls(self):
+        self.create_control_buttons()
 
     def create_control_buttons(self):
         """Creates Start/Stop, Reset, and Close buttons."""
