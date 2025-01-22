@@ -66,11 +66,15 @@ class PlotManager:
         if len(indexes) < 20:
             self.ax2.set_xlim(initial_indexes[0], initial_indexes[-1])
             self.ax2.fill_between(initial_indexes, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
+            self.ax2.fill_between(initial_indexes, 100, 120, color='#3c8c53', alpha=0.5)
+            self.ax2.fill_between(initial_indexes, 120, 140, color='#6c9678', alpha=0.5)
             j = len(imp)
             self.ax2.plot(initial_indexes[-j:], imp, "-")
         else:
             self.ax2.set_xlim(indexes[0], indexes[-1])
             self.ax2.fill_between(indexes, imp_thresh - 40.0, imp_thresh, color='#FFA500', alpha=0.5)
+            self.ax2.fill_between(indexes, 100, 120, color='#3c8c53', alpha=0.5)
+            self.ax2.fill_between(indexes, 120, 140, color='#6c9678', alpha=0.5)
             self.ax2.plot(indexes, imp[-20:], "-")
         self.ax2.set_ylim(75, int(imp_thresh + 25.0))
         self.ax2.axhline(y=imp_thresh,xmin=0,xmax=3,ls="--",c="r",lw=2)
