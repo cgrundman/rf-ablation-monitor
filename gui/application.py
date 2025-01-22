@@ -14,7 +14,7 @@ class Application:
         """
         self.root = root
         self.root.title("RF Ablation Simulator")
-        self.root.geometry("1350x750")
+        self.root.geometry("1400x700")
         self.root.configure(background=Styles.OFFWHITE)  # Offwhite background
         
         # Running state variables
@@ -36,9 +36,9 @@ class Application:
     def create_widgets(self):
         """Sets up the UI components for the application."""
         # Main Title
-        tk.Label(
-            self.root, text="RF Ablation Simulation", bg=Styles.OFFWHITE, font=("Helvetica", 36)
-        ).grid(row=0, column=0, columnspan=10, sticky="")
+        # tk.Label(
+        #     self.root, text="RF Ablation Simulation", bg=Styles.OFFWHITE, font=("Helvetica", 36)
+        # ).grid(row=0, column=0, columnspan=10, sticky="")
 
         # Monitor Widget
         self.create_monitor()
@@ -104,7 +104,7 @@ class Application:
 
     def create_threshold_widget(self, row, column):
         # Create Widget Frame
-        self.threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground=Styles.DARK_GRAY, highlightthickness=4, relief="ridge")
         self.threshold_frame.grid(row=row, column=column, rowspan=10)
 
         # Title
@@ -200,7 +200,7 @@ class Application:
 
     def create_controls_widget(self, row, column):
         # Create Widget Frame
-        self.controls_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.controls_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground=Styles.DARK_GRAY, highlightthickness=4, relief="ridge")
         self.controls_frame.grid(row=row, column=column, rowspan=10)
 
         # Title
@@ -211,16 +211,13 @@ class Application:
         self.create_control_button()
 
         self.controls_frame.grid_columnconfigure(0, minsize=450)
-        self.controls_frame.grid_rowconfigure(2, minsize=250)
-        self.controls_frame.grid_rowconfigure(4, minsize=250)
+        self.controls_frame.grid_rowconfigure(1, minsize=275)
+        self.controls_frame.grid_rowconfigure(2, minsize=275)
 
     def create_control_button(self):
-        device_button_pressed = tk.PhotoImage(file="images/button_pressed.png")
-        device_button_unpressed = tk.PhotoImage(file="images/button_unpressed.png")
-
-        tk.Label(
-            self.controls_frame, text="Ablation", bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=1, column=0, sticky="")
+        device_button_pressed = tk.PhotoImage(file="images/ablate_active.png")
+        device_button_unpressed = tk.PhotoImage(file="images/ablate_inactive.png")
+        reposition_button = tk.PhotoImage(file="images/reposition.png")
 
         self.ablate_button = tk.Button(
             self.controls_frame,
@@ -229,33 +226,30 @@ class Application:
             bg=Styles.OFFWHITE,
             command=self.toggle_ablation
         )
-        self.ablate_button.grid(row=2, column=0, sticky="")
-
-        tk.Label(
-            self.controls_frame, text="Postioning", bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=3, column=0, sticky="")
+        self.ablate_button.grid(row=1, column=0, sticky="")
 
         self.positioning_button = tk.Button(
             self.controls_frame,
-            image=device_button_pressed,
+            image=reposition_button,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.simulation.reposition
         )
-        self.positioning_button.grid(row=4, column=0, sticky="")
+        self.positioning_button.grid(row=2, column=0, sticky="")
 
         # Keep references to the images to prevent garbage collection
         self.device_button_pressed = device_button_pressed
         self.device_button_unpressed = device_button_unpressed
+        self.reposition_button = reposition_button
 
     def create_application_buttons(self, row, column):
         # Create Widget Frame
-        self.app_buttons_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.app_buttons_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
         self.app_buttons_frame.grid(row=row, column=column)
 
         """Creates Start/Stop, Reset, and Close buttons."""
-        start_button_img = tk.PhotoImage(file="images/start_button_active.png")
-        stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
+        off_button_img = tk.PhotoImage(file="images/toggle_off.png")
+        on_button_img = tk.PhotoImage(file="images/toggle_on.png")
         reset_button_img = tk.PhotoImage(file="images/reset_button.png")
         close_button_img = tk.PhotoImage(file="images/close_button.png")
         on_img = tk.PhotoImage(file="images/on.png")
@@ -269,7 +263,7 @@ class Application:
         ).pack(side="left")
         self.start_stop_button = tk.Button(
             self.on_off_button_frame,
-            image=start_button_img,
+            image=off_button_img,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.toggle_simulation
@@ -302,8 +296,8 @@ class Application:
         self.app_buttons_frame.grid_columnconfigure(2, minsize=125)
 
         # Keep references to the images to prevent garbage collection
-        self.start_img = start_button_img
-        self.stop_img = stop_button_img
+        self.off_button_img = off_button_img
+        self.on_button_img = on_button_img
         self.reset_img = reset_button_img
         self.close_img = close_button_img
         self.on_img = on_img
@@ -368,18 +362,18 @@ class Application:
         if self.simulation_running:
             # Stop simulation
             self.simulation_running = False
-            self.start_stop_button.config(image=self.start_img)
+            self.start_stop_button.config(image=self.off_button_img)
             self.simulation.stop()
         else:
             # Start simulation
             self.simulation_running = True
-            self.start_stop_button.config(image=self.stop_img)
+            self.start_stop_button.config(image=self.on_button_img)
             self.simulation.start()
 
     def reset_simulation(self):
         """Reset simulation to the initial state."""
         self.simulation_running = False
-        self.start_stop_button.config(image=self.start_img)
+        self.start_stop_button.config(image=self.off_button_img)
         self.simulation.reset()
 
     def toggle_ablation(self):
