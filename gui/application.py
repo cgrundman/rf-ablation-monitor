@@ -44,7 +44,7 @@ class Application:
         self.create_controls_widget(row=1, column=2)
 
         # Application Buttons
-        self.create_application_buttons()
+        self.create_application_buttons(row=2, column=2)
 
     def create_monitor_widget(self, row, column):
         # Create Monitor Frame
@@ -238,7 +238,11 @@ class Application:
         self.device_button_pressed = device_button_pressed
         self.device_button_unpressed = device_button_unpressed
 
-    def create_application_buttons(self):
+    def create_application_buttons(self, row, column):
+        # Create Widget Frame
+        self.app_buttons_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.app_buttons_frame.grid(row=row, column=column)
+
         """Creates Start/Stop, Reset, and Close buttons."""
         start_button_img = tk.PhotoImage(file="images/start_button_active.png")
         stop_button_img = tk.PhotoImage(file="images/stop_button_active.png")
@@ -247,14 +251,14 @@ class Application:
         on_img = tk.PhotoImage(file="images/on.png")
         off_img = tk.PhotoImage(file="images/off.png")
 
-        self.app_button_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
-        self.app_button_frame.grid(row=11, column=7, sticky="")
+        self.on_off_button_frame = tk.Frame(self.app_buttons_frame, bg=Styles.OFFWHITE)
+        self.on_off_button_frame.grid(row=0, column=0, sticky="")
 
         self.off_img_label = tk.Label(
-            self.app_button_frame, image=off_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
+            self.on_off_button_frame, image=off_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).pack(side="left")
         self.start_stop_button = tk.Button(
-            self.app_button_frame,
+            self.on_off_button_frame,
             image=start_button_img,
             border=0,
             bg=Styles.OFFWHITE,
@@ -262,30 +266,30 @@ class Application:
         )
         self.start_stop_button.pack(side="left")
         self.on_img_label = tk.Label(
-            self.app_button_frame, image=on_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
+            self.on_off_button_frame, image=on_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).pack(side="left")
 
         self.reset_button = tk.Button(
-            self.root,
+            self.app_buttons_frame,
             image=reset_button_img,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.reset_simulation
         )
-        self.reset_button.grid(row=11, column=8, columnspan=1, sticky="")
+        self.reset_button.grid(row=0, column=1,sticky="")
 
         self.close_button = tk.Button(
-            self.root,
+            self.app_buttons_frame,
             image=close_button_img,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.root.quit
         )
-        self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
+        self.close_button.grid(row=0, column=2, sticky="")
 
-        self.root.grid_columnconfigure(7, minsize=225)
-        self.root.grid_columnconfigure(8, minsize=125)
-        self.root.grid_columnconfigure(9, minsize=125)
+        self.app_buttons_frame.grid_columnconfigure(0, minsize=225)
+        self.app_buttons_frame.grid_columnconfigure(1, minsize=125)
+        self.app_buttons_frame.grid_columnconfigure(2, minsize=125)
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
