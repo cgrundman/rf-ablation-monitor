@@ -23,8 +23,6 @@ class Application:
 
         # Initialize Managers
         self.threshold_manager = ThresholdManager()
-        self.plot_manager = PlotManager(self.root, self.threshold_manager)
-        self.simulation = Simulation(self.threshold_manager, self.plot_manager, self.update_ui)
 
         # Create UI
         self.create_widgets()
@@ -37,10 +35,10 @@ class Application:
         ).grid(row=0, column=0, columnspan=10, sticky="")
 
         # Monitor Widget
-        self.create_monitor()
+        self.create_monitor_widget(row=1, column=0)
 
         # Threshold Widget
-        self.create_threshold_widget(row=1, column=5)
+        self.create_threshold_widget(row=1, column=1)
 
         # Control Buttons
         self.create_controls()
@@ -48,12 +46,21 @@ class Application:
         # Application Buttons
         self.create_application_buttons()
 
-    def create_monitor(self):
+    def create_monitor_widget(self, row, column):
+        # Create Monitor Frame
+        self.monitor_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.monitor_frame.grid(row=row, column=column)
+
+        # Title
+        tk.Label(
+            self.monitor_frame, text="MONITOR", bg=Styles.OFFWHITE, font=("Helvetica", 24, "bold")
+        ).grid(row=0, column=0, columnspan=3, sticky="")
+
         # Temperature Section
         self.create_monitor_plot("Temperature", row_start=1, threshold_type="temp")
 
         # Impedance Section
-        self.create_monitor_plot("Impedance", row_start=6, threshold_type="imp")
+        self.create_monitor_plot("Impedance", row_start=3, threshold_type="imp")
 
     def create_monitor_plot(self, title, row_start, threshold_type):
         """
@@ -67,21 +74,21 @@ class Application:
 
         # Section Title
         tk.Label(
-            self.root, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=row_start, column=0, columnspan=1, sticky="")
+            self.monitor_frame, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=row_start, column=0, sticky="")
 
         # Value Display
         setattr(
             self,
             f"{threshold_type}_value_label",
             tk.Label(
-                self.root, 
+                self.monitor_frame, 
                 text=f"{'37.0' if threshold_type == 'temp' else '100.0'}", 
                 bg=Styles.OFFWHITE, 
                 font=("Helvetica", 36)
             ),
         )
-        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=1, columnspan=1, sticky="")
+        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=1, sticky="")
 
         # Unit Display
         degree_sign = u'\N{DEGREE SIGN}'
@@ -90,20 +97,24 @@ class Application:
             self,
             f"{threshold_type}_value_label",
             tk.Label(
-                self.root, 
+                self.monitor_frame, 
                 text=f"{f"{degree_sign}C" if threshold_type == 'temp' else f"{omega}"}", 
                 bg=Styles.OFFWHITE, 
                 font=("Helvetica", 36)
             ),
         )
-        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=2, columnspan=1, sticky="")
+        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=2, sticky="")
+
+        self.plot_manager = PlotManager(self.monitor_frame, self.threshold_manager)
+        self.simulation = Simulation(self.threshold_manager, self.plot_manager, self.update_ui)
+
 
     def create_threshold_widget(self, row, column):
         # Create Widget Frame
         self.threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
         self.threshold_frame.grid(row=row, column=column)
 
-        # Main Title
+        # Title
         tk.Label(
             self.threshold_frame, text="THRESHOLDS", bg=Styles.OFFWHITE, font=("Helvetica", 24, "bold")
         ).grid(row=0, column=0, sticky="")
