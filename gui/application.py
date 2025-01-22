@@ -30,6 +30,8 @@ class Application:
         self.degree_sign = u'\N{DEGREE SIGN}'
         self.omega = '\u03A9'
 
+        self.root.grid_columnconfigure(1, minsize=200)
+
         # Create UI
         self.create_widgets()
 
@@ -73,14 +75,6 @@ class Application:
         tk.Label(
             self.root, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).grid(row=row_start, column=0, sticky="")
-
-        # Warning Label
-        setattr(
-            self,
-            f"{threshold_type}_warn_label",
-            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
-        )
-        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
 
         # Value Display
         setattr(
