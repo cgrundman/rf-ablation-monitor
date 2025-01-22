@@ -23,6 +23,12 @@ class Application:
 
         # Initialize Managers
         self.threshold_manager = ThresholdManager()
+        self.plot_manager = PlotManager(self.root, self.threshold_manager)
+        self.simulation = Simulation(self.threshold_manager, self.plot_manager, self.update_ui)
+
+        # Define Special Characters
+        self.degree_sign = u'\N{DEGREE SIGN}'
+        self.omega = '\u03A9'
 
         # Create UI
         self.create_widgets()
@@ -35,32 +41,23 @@ class Application:
         ).grid(row=0, column=0, columnspan=10, sticky="")
 
         # Monitor Widget
-        self.create_monitor_widget(row=1, column=0)
+        self.create_monitor()
 
         # Threshold Widget
-        self.create_threshold_widget(row=1, column=1)
+        self.create_threshold_widget(row=1, column=5)
 
         # Control Buttons
-        self.create_controls_widget(row=1, column=2)
+        self.create_controls_widget(row=1, column=6)
 
         # Application Buttons
-        self.create_application_buttons(row=2, column=2)
+        self.create_application_buttons(row=11, column=6)
 
-    def create_monitor_widget(self, row, column):
-        # Create Monitor Frame
-        self.monitor_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
-        self.monitor_frame.grid(row=row, column=column)
-
-        # Title
-        tk.Label(
-            self.monitor_frame, text="MONITOR", bg=Styles.OFFWHITE, font=("Helvetica", 24, "bold")
-        ).grid(row=0, column=0, columnspan=3, sticky="")
-
+    def create_monitor(self):
         # Temperature Section
         self.create_monitor_plot("Temperature", row_start=1, threshold_type="temp")
 
         # Impedance Section
-        self.create_monitor_plot("Impedance", row_start=3, threshold_type="imp")
+        self.create_monitor_plot("Impedance", row_start=6, threshold_type="imp")
 
     def create_monitor_plot(self, title, row_start, threshold_type):
         """
@@ -74,15 +71,23 @@ class Application:
 
         # Section Title
         tk.Label(
-            self.monitor_frame, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+            self.root, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).grid(row=row_start, column=0, sticky="")
+
+        # Warning Label
+        setattr(
+            self,
+            f"{threshold_type}_warn_label",
+            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
+        )
+        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
 
         # Value Display
         setattr(
             self,
             f"{threshold_type}_value_label",
             tk.Label(
-                self.monitor_frame, 
+                self.root, 
                 text=f"{'37.0' if threshold_type == 'temp' else '100.0'}", 
                 bg=Styles.OFFWHITE, 
                 font=("Helvetica", 36)
@@ -90,28 +95,17 @@ class Application:
         )
         getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=1, sticky="")
 
-        # Unit Display
-        degree_sign = u'\N{DEGREE SIGN}'
-        omega = '\u03A9'
-        setattr(
-            self,
-            f"{threshold_type}_value_label",
-            tk.Label(
-                self.monitor_frame, 
-                text=f"{f"{degree_sign}C" if threshold_type == 'temp' else f"{omega}"}", 
-                bg=Styles.OFFWHITE, 
-                font=("Helvetica", 36)
-            ),
-        )
-        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=2, sticky="")
-
-        self.plot_manager = PlotManager(self.monitor_frame, self.threshold_manager)
-        self.simulation = Simulation(self.threshold_manager, self.plot_manager, self.update_ui)
+        tk.Label(
+            self.root, 
+            text=f"{f"{self.degree_sign}C" if threshold_type == 'temp' else f"{self.omega}"}", 
+            bg=Styles.OFFWHITE, 
+            font=("Helvetica", 36)
+        ).grid(row=row_start, column=2, sticky="")
 
     def create_threshold_widget(self, row, column):
         # Create Widget Frame
         self.threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
-        self.threshold_frame.grid(row=row, column=column)
+        self.threshold_frame.grid(row=row, column=column, rowspan=10)
 
         # Title
         tk.Label(
@@ -122,13 +116,13 @@ class Application:
         self.create_threshold_section(row_start=1, threshold_type="temp")
 
         # Create Impedence Threshold
-        self.create_threshold_section(row_start=4, threshold_type="imp")
+        self.create_threshold_section(row_start=5, threshold_type="imp")
 
-        self.threshold_frame.grid_columnconfigure(0, minsize=400)
+        self.threshold_frame.grid_columnconfigure(0, minsize=300)
         self.threshold_frame.grid_rowconfigure(1, minsize=100)
-        self.threshold_frame.grid_rowconfigure(3, minsize=100)
         self.threshold_frame.grid_rowconfigure(4, minsize=100)
-        self.threshold_frame.grid_rowconfigure(6, minsize=100)
+        self.threshold_frame.grid_rowconfigure(5, minsize=100)
+        self.threshold_frame.grid_rowconfigure(8, minsize=100)
 
     def create_threshold_section(self, row_start, threshold_type):
         # Warning Label
@@ -140,23 +134,35 @@ class Application:
                 text="Warning!", 
                 bg=Styles.OFFWHITE, 
                 fg=Styles.OFFWHITE, 
-                font=("Helvetica", 24)
+                font=("Helvetica", 36)
             )
         )
         getattr(self, f"{threshold_type}_warn_label").grid(row=row_start, column=0, sticky="")
 
+        tk.Label(
+            self.threshold_frame,
+            text=f"{"Max. Temperature:" if threshold_type == "temp" else "Max. Impedence:"}",
+            bg=Styles.OFFWHITE,
+            font=("Helvetica", 16),
+        ).grid(row=row_start + 1, column=0, sticky="")
+
         # Threshold Display
+        # Create Widget Frame
+        self.threshold_display_frame = tk.Frame(self.threshold_frame, bg=Styles.OFFWHITE)
+        self.threshold_display_frame.grid(row=row_start + 2, column=0, sticky="")
+        special_character = f"{self.degree_sign}C" if threshold_type =="temp" else f"{self.omega}"
         setattr(
             self,
             f"{threshold_type}_threshold_label",
             tk.Label(
-                self.threshold_frame,
-                text=f"Threshold: {self.threshold_manager.get_threshold(threshold_type)}",
+                self.threshold_display_frame,
+                text=f"{self.threshold_manager.get_threshold(threshold_type)} {special_character}",
                 bg=Styles.OFFWHITE,
                 font=("Helvetica", 24),
             ),
         )
-        getattr(self, f"{threshold_type}_threshold_label").grid(row=row_start + 1, column=0, sticky="")
+        getattr(self, f"{threshold_type}_threshold_label").pack(side="left")
+
 
         plus_button = tk.PhotoImage(file=f"images/plus_{'1' if threshold_type == 'temp' else '10'}.png")
         minus_button = tk.PhotoImage(file=f"images/minus_{'1' if threshold_type == 'temp' else '10'}.png")
@@ -164,7 +170,7 @@ class Application:
 
         # Create Adjustment Buttons
         button_frame = tk.Frame(self.threshold_frame, bg=Styles.OFFWHITE)
-        button_frame.grid(row=row_start + 2, column=0, sticky="")
+        button_frame.grid(row=row_start + 3, column=0, sticky="")
         tk.Button(
             button_frame,
             image=minus_button,
@@ -195,7 +201,7 @@ class Application:
     def create_controls_widget(self, row, column):
         # Create Widget Frame
         self.controls_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
-        self.controls_frame.grid(row=row, column=column)
+        self.controls_frame.grid(row=row, column=column, rowspan=10)
 
         # Title
         tk.Label(
@@ -203,6 +209,10 @@ class Application:
         ).grid(row=0, column=0, sticky="")
 
         self.create_control_button()
+
+        self.controls_frame.grid_columnconfigure(0, minsize=450)
+        self.controls_frame.grid_rowconfigure(2, minsize=250)
+        self.controls_frame.grid_rowconfigure(4, minsize=250)
 
     def create_control_button(self):
         device_button_pressed = tk.PhotoImage(file="images/button_pressed.png")
@@ -327,10 +337,10 @@ class Application:
 
         # Update threshold labels
         self.temp_threshold_label.config(
-            text=f"Threshold: {self.threshold_manager.get_threshold("temp")}"
+            text=f"{self.threshold_manager.get_threshold("temp")} {self.degree_sign}C"
         )
         self.imp_threshold_label.config(
-            text=f"Threshold: {self.threshold_manager.get_threshold("imp")}"
+            text=f"{self.threshold_manager.get_threshold("imp")} {self.omega}"
         )
 
     def update_threshold(self, threshold_type, action):
