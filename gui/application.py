@@ -180,10 +180,6 @@ class Application:
         )
         self.positioning_button.grid(row=7, column=7, columnspan=3, rowspan=4, sticky="")
 
-        self.root.grid_columnconfigure(7, minsize=150)
-        self.root.grid_columnconfigure(8, minsize=150)
-        self.root.grid_columnconfigure(9, minsize=150)
-
         # Keep references to the images to prevent garbage collection
         self.device_button_pressed = device_button_pressed
         self.device_button_unpressed = device_button_unpressed
@@ -209,7 +205,8 @@ class Application:
             border=0,
             bg=Styles.OFFWHITE,
             command=self.toggle_simulation
-        ).pack(side="left")
+        )
+        self.start_stop_button.pack(side="left")
         self.on_img_label = tk.Label(
             self.app_button_frame, image=on_img, bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).pack(side="left")
@@ -232,12 +229,17 @@ class Application:
         )
         self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
 
+        self.root.grid_columnconfigure(7, minsize=300)
+        self.root.grid_columnconfigure(8, minsize=150)
+        self.root.grid_columnconfigure(9, minsize=150)
+
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
         self.stop_img = stop_button_img
         self.reset_img = reset_button_img
         self.close_img = close_button_img
         self.on_img = on_img
+        self.off_img = off_img
 
     def update_ui(self):
         """Updates the UI elements based on the current simulation state."""
