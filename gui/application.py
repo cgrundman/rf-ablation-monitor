@@ -41,7 +41,7 @@ class Application:
         self.create_threshold_widget(row=1, column=1)
 
         # Control Buttons
-        self.create_controls()
+        self.create_controls_widget(row=1, column=2)
 
         # Application Buttons
         self.create_application_buttons()
@@ -107,7 +107,6 @@ class Application:
 
         self.plot_manager = PlotManager(self.monitor_frame, self.threshold_manager)
         self.simulation = Simulation(self.threshold_manager, self.plot_manager, self.update_ui)
-
 
     def create_threshold_widget(self, row, column):
         # Create Widget Frame
@@ -193,38 +192,47 @@ class Application:
         setattr(self, f"{threshold_type}_minus_img", minus_button)
         setattr(self, f"{threshold_type}_reset_img", reset_button)
 
-    def create_controls(self):
-        self.create_control_buttons()
+    def create_controls_widget(self, row, column):
+        # Create Widget Frame
+        self.controls_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.controls_frame.grid(row=row, column=column)
 
-    def create_control_buttons(self):
+        # Title
+        tk.Label(
+            self.controls_frame, text="ABLATION CONTROLS", bg=Styles.OFFWHITE, font=("Helvetica", 24, "bold")
+        ).grid(row=0, column=0, sticky="")
+
+        self.create_control_button()
+
+    def create_control_button(self):
         device_button_pressed = tk.PhotoImage(file="images/button_pressed.png")
         device_button_unpressed = tk.PhotoImage(file="images/button_unpressed.png")
 
         tk.Label(
-            self.root, text="Ablation", bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=1, column=7, columnspan=3, sticky="")
+            self.controls_frame, text="Ablation", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=1, column=0, sticky="")
 
         self.ablate_button = tk.Button(
-            self.root,
+            self.controls_frame,
             image=device_button_unpressed,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.toggle_ablation
         )
-        self.ablate_button.grid(row=2, column=7, columnspan=3, rowspan=4, sticky="")
+        self.ablate_button.grid(row=2, column=0, sticky="")
 
         tk.Label(
-            self.root, text="Postioning", bg=Styles.OFFWHITE, font=("Helvetica", 24)
-        ).grid(row=6, column=7, columnspan=3, sticky="")
+            self.controls_frame, text="Postioning", bg=Styles.OFFWHITE, font=("Helvetica", 24)
+        ).grid(row=3, column=0, sticky="")
 
         self.positioning_button = tk.Button(
-            self.root,
+            self.controls_frame,
             image=device_button_pressed,
             border=0,
             bg=Styles.OFFWHITE,
             command=self.simulation.reposition
         )
-        self.positioning_button.grid(row=7, column=7, columnspan=3, rowspan=4, sticky="")
+        self.positioning_button.grid(row=4, column=0, sticky="")
 
         # Keep references to the images to prevent garbage collection
         self.device_button_pressed = device_button_pressed
