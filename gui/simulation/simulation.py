@@ -1,3 +1,5 @@
+import random
+
 class Simulation:
     def __init__(self, threshold_manager, plot_manager, update_ui_callback):
         """
@@ -17,7 +19,7 @@ class Simulation:
         self.ablating = False
         self.idxs = [0] # Set initial index
         self.temp = [37.0] # Initial temperature
-        self.imp = [100.0] # Initial impedance
+        self.imp = [random.randint(150, 350)] # Initial impedance
 
     def start(self):
         """Starts the simulation."""
@@ -35,7 +37,7 @@ class Simulation:
         self.end_ablate()
         self.idxs = [0]
         self.temp = [37.0]
-        self.imp = [100.0]
+        self.imp = [random.randint(150, 350)]
         self.threshold_manager.reset_temperature()
         self.threshold_manager.reset_impedance()
         self.plot_manager.update_plots(
@@ -57,8 +59,9 @@ class Simulation:
         self.ablating = False
 
     def reposition(self):
-        """Reposition the device (reset impedence)"""
-        self.imp.append(100.0)
+        """Reposition the device (recreate initial impedence, reset Tempperature)"""
+        self.imp.append(random.randint(150, 350))
+        self.temp.append(37.0)
 
     def update_data(self):
         """Updates the simulation data and continues if running."""
@@ -76,7 +79,7 @@ class Simulation:
 
             # Update impedance
             if self.ablating:
-                self.imp.append(self.imp[-1] + 9)  # Increment impedance
+                self.imp.append(self.imp[-1] - 7)  # Increment impedance
             else:
                 self.imp.append(self.imp[-1])
             self.imp[-1] = round(self.imp[-1], 2)
