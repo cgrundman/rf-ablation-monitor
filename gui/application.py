@@ -91,6 +91,22 @@ class Application:
         )
         getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=1, columnspan=1, sticky="")
 
+        # Unit Display
+        degree_sign = u'\N{DEGREE SIGN}'
+        omega = '\u03A9'
+        setattr(
+            self,
+            f"{threshold_type}_value_label",
+            tk.Label(
+                self.root, 
+                text=f"{f"{degree_sign}C" if threshold_type == 'temp' else f"{omega}"}", 
+                bg=Styles.OFFWHITE, 
+                font=("Helvetica", 36)
+            ),
+        )
+        getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=2, columnspan=1, sticky="")
+
+
     def create_thresholds(self):
         # Create Temperature Threshold
         self.create_threshold_section(row_start=1, threshold_type="temp")
@@ -229,9 +245,9 @@ class Application:
         )
         self.close_button.grid(row=11, column=9, columnspan=1, sticky="")
 
-        self.root.grid_columnconfigure(7, minsize=300)
-        self.root.grid_columnconfigure(8, minsize=150)
-        self.root.grid_columnconfigure(9, minsize=150)
+        self.root.grid_columnconfigure(7, minsize=225)
+        self.root.grid_columnconfigure(8, minsize=125)
+        self.root.grid_columnconfigure(9, minsize=125)
 
         # Keep references to the images to prevent garbage collection
         self.start_img = start_button_img
