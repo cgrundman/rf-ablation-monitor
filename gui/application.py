@@ -70,14 +70,6 @@ class Application:
             self.root, text=f"{title}:", bg=Styles.OFFWHITE, font=("Helvetica", 24)
         ).grid(row=row_start, column=0, columnspan=1, sticky="")
 
-        # Warning Label
-        setattr(
-            self,
-            f"{threshold_type}_warn_label",
-            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
-        )
-        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
-
         # Value Display
         setattr(
             self,
@@ -118,6 +110,14 @@ class Application:
         # Threshold Control Buttons
         threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
         threshold_frame.grid(row=row_start + 4, column=5, sticky="")
+
+        # Warning Label
+        setattr(
+            self,
+            f"{threshold_type}_warn_label",
+            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
+        )
+        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
 
         # Threshold Display
         setattr(
