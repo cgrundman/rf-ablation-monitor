@@ -40,7 +40,7 @@ class Application:
         self.create_monitor()
 
         # Threshold Widget
-        self.create_thresholds()
+        self.create_threshold_widget(row=1, column=5)
 
         # Control Buttons
         self.create_controls()
@@ -98,60 +98,79 @@ class Application:
         )
         getattr(self, f"{threshold_type}_value_label").grid(row=row_start, column=2, columnspan=1, sticky="")
 
+    def create_threshold_widget(self, row, column):
+        # Create Widget Frame
+        self.threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE, highlightbackground="black", highlightthickness=1)
+        self.threshold_frame.grid(row=row, column=column)
 
-    def create_thresholds(self):
+        # Main Title
+        tk.Label(
+            self.threshold_frame, text="THRESHOLDS", bg=Styles.OFFWHITE, font=("Helvetica", 24, "bold")
+        ).grid(row=0, column=0, sticky="")
+
         # Create Temperature Threshold
         self.create_threshold_section(row_start=1, threshold_type="temp")
 
         # Create Impedence Threshold
-        self.create_threshold_section(row_start=6, threshold_type="imp")
+        self.create_threshold_section(row_start=4, threshold_type="imp")
+
+        self.threshold_frame.grid_columnconfigure(0, minsize=400)
+        self.threshold_frame.grid_rowconfigure(1, minsize=100)
+        self.threshold_frame.grid_rowconfigure(3, minsize=100)
+        self.threshold_frame.grid_rowconfigure(4, minsize=100)
+        self.threshold_frame.grid_rowconfigure(6, minsize=100)
 
     def create_threshold_section(self, row_start, threshold_type):
-        # Threshold Control Buttons
-        threshold_frame = tk.Frame(self.root, bg=Styles.OFFWHITE)
-        threshold_frame.grid(row=row_start + 4, column=5, sticky="")
-
         # Warning Label
         setattr(
             self,
             f"{threshold_type}_warn_label",
-            tk.Label(self.root, text="Warning!", bg=Styles.OFFWHITE, fg=Styles.OFFWHITE, font=("Helvetica", 24)),
+            tk.Label(
+                self.threshold_frame, 
+                text="Warning!", 
+                bg=Styles.OFFWHITE, 
+                fg=Styles.OFFWHITE, 
+                font=("Helvetica", 24)
+            )
         )
-        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start + 1, column=5, sticky="")
+        getattr(self, f"{threshold_type}_warn_label").grid(row=row_start, column=0, sticky="")
 
         # Threshold Display
         setattr(
             self,
             f"{threshold_type}_threshold_label",
             tk.Label(
-                self.root,
+                self.threshold_frame,
                 text=f"Threshold: {self.threshold_manager.get_threshold(threshold_type)}",
                 bg=Styles.OFFWHITE,
-                font=("Helvetica", 16),
+                font=("Helvetica", 24),
             ),
         )
-        getattr(self, f"{threshold_type}_threshold_label").grid(row=row_start + 3, column=5, sticky="")
+        getattr(self, f"{threshold_type}_threshold_label").grid(row=row_start + 1, column=0, sticky="")
 
         plus_button = tk.PhotoImage(file=f"images/plus_{'1' if threshold_type == 'temp' else '10'}.png")
         minus_button = tk.PhotoImage(file=f"images/minus_{'1' if threshold_type == 'temp' else '10'}.png")
         reset_button = tk.PhotoImage(file="images/reset_blue.png")
 
+        # Create Adjustment Buttons
+        button_frame = tk.Frame(self.threshold_frame, bg=Styles.OFFWHITE)
+        button_frame.grid(row=row_start + 2, column=0, sticky="")
         tk.Button(
-            threshold_frame,
+            button_frame,
             image=minus_button,
             border=0,
             bg=Styles.OFFWHITE,
             command=lambda: self.update_threshold(threshold_type, "decrease"),
         ).pack(side="left")
         tk.Button(
-            threshold_frame,
+            button_frame,
             image=reset_button,
             border=0,
             bg=Styles.OFFWHITE,
             command=lambda: self.update_threshold(threshold_type, "reset"),
         ).pack(side="left")
         tk.Button(
-            threshold_frame,
+            button_frame,
             image=plus_button,
             border=0,
             bg=Styles.OFFWHITE,
