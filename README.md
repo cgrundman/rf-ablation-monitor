@@ -2,6 +2,28 @@
 
 Code for a GUI monitoring and an RF Ablation device in operation. Python GUI built on Tkinter/Matplotlib.
 
+## Download Instructions
+
+## Run Locally
+
+Clone the project:
+
+```bash
+  git clone https://github.com/cgrundman/rf-ablation-monitor
+```
+
+Go to the project directory:
+
+```bash
+  cd local/path/rf-ablation-monitor
+```
+
+In the terminal:
+
+```bash
+  python main.py
+```
+
 ## Cardiac Arrhythmia
 
 Cardiac Arrhythmia is a condition where the heart beat takes an irregular step. It is caused by fatty tissue present in the heart.
