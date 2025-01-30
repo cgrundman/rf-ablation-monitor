@@ -22,8 +22,16 @@ However when there is sufficient fatty tissue, the impedence of the tissue rises
 
 ## Radio Frequency (RF) Ablation
 
-RF Ablation as a treatment
+RF Ablation is one of the treatments for this condition. It is not the first option as it is an invasive procedure. The idea is to use a radio-frequency signal to generate heat. The heat is then applied to the heart tissue causing a lesion. Lesioned tissue has a lower impedance, thus hopefully the arrhythmia is cured. An image of the operation can be seen below:
+
+<img src="https://i0.wp.com/thoracickey.com/wp-content/uploads/2021/06/f08-01-9780323793384.jpg?w=960"/>
+
+The ablation electrode is inserted into the femoral vein in the leg and fed through the vein into the heart. There the controls are used for fine control and placement of the electrode. Modern imaging technology allow for path planning of the surgery beforehand. Here is an example of a typical ablation path:
+
+<img src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/79e5/7252711/8c6cb91e5243/icrm-08-2868-g004.jpg" />
+
+The relationship between impedence of the tissue and the temperature of the electrode is complex. Therefore the temperature of the electrode and the impedence of the system (electrode and tissue) are always monitored. This gui is an example of a monitor and interface for rf-ablation.
 
 ## GUI
 
-Layout and function of GUI
+The 
