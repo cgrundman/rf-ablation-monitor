@@ -2,6 +2,8 @@
 
 Code for a GUI monitoring and an RF Ablation device in operation. Python GUI built on Tkinter/Matplotlib.
 
+<img src="https://github.com/cgrundman/rf-ablation-monitor/blob/main/images/GUI_example.png" width="200" />
+
 ## Download Instructions
 
 ## Run Locally
