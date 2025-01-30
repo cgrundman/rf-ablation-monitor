@@ -2,6 +2,28 @@
 
 Code for a GUI monitoring and an RF Ablation device in operation. Python GUI built on Tkinter/Matplotlib.
 
+## Download Instructions
+
+## Run Locally
+
+Clone the project:
+
+```bash
+  git clone https://github.com/cgrundman/rf-ablation-monitor
+```
+
+Go to the project directory:
+
+```bash
+  cd local/path/rf-ablation-monitor
+```
+
+In the terminal:
+
+```bash
+  python main.py
+```
+
 ## Cardiac Arrhythmia
 
 Cardiac Arrhythmia is a condition where the heart beat takes an irregular step. It is caused by fatty tissue present in the heart.
@@ -34,4 +56,18 @@ The relationship between impedence of the tissue and the temperature of the elec
 
 ## GUI
 
-The 
+The GUI simlates temperature and impedence values and plots the values on screen. Various settings can be adjusted to and tweeked for control of the procedue. The GUI is as seen below:
+
+<img src="https://github.com/cgrundman/rf-ablation-monitor/blob/main/images/GUI_example.png" />
+
+The GUI is split into 3 main sections. On the far left, there is a monitor for the impedence and temperature values. There are also the thresholds for max value in red and warning areas in orange. For Impedence, the ideal values are shaded in green. The vlaues them selves are plotted in blue and 20 values are plotted at a time (this is a constraint of Matplotlib, as more produce lag in the function of the device) and displayed numerically above the plot. 
+
+The middle section displys and aloows for adjustment in the thresholds. There are buttons for increasing, decreasing, and resseting to default the threshold values. Unseen are the warning and Exceeded warnings above the threshold adjustments. If the values are in the orange regions in the plot, a warning message appears to warn the user. If the thresholds are exceeded, an exceeded message is displayed and the simulation is turned off. 
+
+On the right are the controls. On the bottom, the on/off button for the simlutation apears as a toggle switch, and the reset and close buttons are both for the entire of the GUI. Above are the buttons for ablation (turning the electrode on and off) and the reposition button (normally these are controls to physically move the device, however this is simply resetting values after movement would occur)
+
+All buttons were programed with svg and converted to png graphics. TKinter is simply using the image as the button. 
+
+## License
+
+[Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
