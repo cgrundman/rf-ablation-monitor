@@ -4,6 +4,8 @@ Code for a GUI monitoring and an RF Ablation device in operation. Python GUI bui
 
 <img src="https://github.com/cgrundman/rf-ablation-monitor/blob/main/images/GUI_example.png" width="200" />
 
+Example of the GUI.
+
 ## Run Locally
 
 Clone the project:
@@ -66,7 +68,7 @@ The middle section displys and aloows for adjustment in the thresholds. There ar
 
 On the right are the controls. On the bottom, the on/off button for the simlutation apears as a toggle switch, and the reset and close buttons are both for the entire of the GUI. Above are the buttons for ablation (turning the electrode on and off) and the reposition button (normally these are controls to physically move the device, however this is simply resetting values after movement would occur)
 
-All buttons were programed with svg and converted to png graphics. TKinter is simply using the image as the button. 
+All buttons were programed with svg and converted to png graphics. TKinter is simply using the image as the button.
 
 ## License
 
