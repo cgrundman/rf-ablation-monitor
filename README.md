@@ -72,4 +72,6 @@ All buttons were programed with svg and converted to png graphics. TKinter is si
 
 ## License
 
+This repository is free to use under the terms of the Apache 2.0 License.
+
 [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
